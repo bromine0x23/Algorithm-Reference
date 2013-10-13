@@ -1,0 +1,24 @@
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{dejavu}
+
+\lstdefinestyle{colored_cpp}{
+	language=C++,
+	basicstyle=\ttfamily,
+%	keywordstyle=\bfseries,
+	keywordstyle=\bfseries\color{blue},
+%	commentstyle=\itshape,
+	commentstyle=\itshape\color{green!50!black},
+	identifierstyle=\color{black},
+	stringstyle=\color{orange},
+}
+
+\lstset{
+	numbers=left,
+	tabsize=4,
+	frame=lines, %双横线包围
+	breaklines=true,
+	showstringspaces=true,
+	texcl=true,
+	escapechar={\%LATEX}, % 使 LATEX 包围部分的中文能被解析
+}

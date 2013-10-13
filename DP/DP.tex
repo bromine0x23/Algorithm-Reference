@@ -1,0 +1,69 @@
+\section{动态规划}
+
+\subsection{典型方程}
+如果子问题数目为$O(n^t)$，且每个子问题要依赖于$O(n^e)$个其他子问题，那么称这个问题为$tD/eD$的。
+\begin{align}
+	f(i) & =
+		\left\{\begin{aligned}
+			& \min\{f(j)+w(i,j)\;|\;0\leqslant j<i\} \\
+			& 0
+		\end{aligned}\right. &
+		\begin{gathered}
+			1\leqslant i\leqslant n \\
+			i=0
+		\end{gathered}
+		\tag*{\text{1D/1D}} \\
+	f(i,j) & =
+		\left\{\begin{aligned}
+			& \min(f(i-1,j)+x_i,\;f(i,j-1)+y_j,\;f(i-1,j-1)+z_{i,j}) \\
+			& 0
+		\end{aligned}\right. &
+		\begin{gathered}
+			1\leqslant i,j\leqslant n \\
+			i=0\vee j=0
+		\end{gathered}
+		\tag*{\text{2D/0D}} \\
+	f(i,j) & =
+		\left\{\begin{aligned}
+			& \min\{f(i,k-1)+f(k,j)+w(i,j)\;|\;i<k\leqslant j\} \\
+			& 0
+		\end{aligned}\right. &
+		\begin{gathered}
+			1\leqslant i<j\leqslant n \\
+			i=j
+		\end{gathered}
+		\tag*{\text{2D/1D}} \\
+	f(i,j) & =
+		\left\{\begin{aligned}
+			& \min\{f(i',j')+w(i'+j',i+j)\;|\;0\leqslant i'<i,0\leqslant j'<j\} \\
+			& 0
+		\end{aligned}\right. &
+		\begin{gathered}
+			1\leqslant i,j\leqslant n \\
+			i=0\vee j=0
+		\end{gathered}
+		\tag*{\text{2D/2D}}
+\end{align}
+
+
+\subsection{四边形优化}
+对于2D/1D型方程，如果w满足区间单调性
+\begin{displaymath}
+	w(i,j)\leqslant w(i',j'),\;i<i'<j'<j
+\end{displaymath}
+以及四边形不等式
+\begin{displaymath}
+	w(i',j)+w(i,j')\leqslant w(i,j)+w(i',j'),\;i<i'<j'<j
+\end{displaymath}
+那么令
+\begin{displaymath}
+	s(i,j)=\max\{k\;|\;i<k\leqslant j,\;f(i,j)=f(i,k-1)+f(k,j)+w(i,j)\}	
+\end{displaymath}
+原转移方程等价于
+\begin{displaymath}
+	f(i,j)=
+		\begin{cases}
+			\min\{f(i,k-1)+f(k,j)+w(i,j)\;|\;s(i,j-1)\leqslant k\leqslant s(i+1,j)\} & 1\leqslant i<j\leqslant n \\
+			0                                                                        & i=j
+		\end{cases}
+\end{displaymath}
