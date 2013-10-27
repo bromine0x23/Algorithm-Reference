@@ -18,7 +18,6 @@ bool intersect(Segment const & s1, Segment const & s2) {
 		return false;
 	}
 }
-
 bool on_segment(Segment const & s, Point const p) {
 	return
 		min_val(s.p1.x, s.p2.x) <= p.x <= max_val(s.p1.x, s.p2.x) &&

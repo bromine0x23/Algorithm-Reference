@@ -4,7 +4,7 @@
 
 \lstdefinestyle{colored_cpp}{
 	language=C++,
-	basicstyle=\ttfamily,
+	basicstyle=\ttfamily\small,
 %	keywordstyle=\bfseries,
 	keywordstyle=\bfseries\color{blue},
 %	commentstyle=\itshape,
@@ -22,3 +22,6 @@
 	texcl=true,
 	escapechar={\%LATEX}, % 使 LATEX 包围部分的中文能被解析
 }
+\newcommand*{\Path}{}
+\newcommand*{\SetPath}[1]{\renewcommand*{\Path}{#1}}
+\newcommand*{\CPPSource}[1]{\lstinputlisting[style=colored_cpp]{\Path/#1.cpp}}

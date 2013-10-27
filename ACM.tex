@@ -6,25 +6,26 @@
 \usepackage{amssymb}
 \usepackage{cases}
 
+\input{MathEnvironment}
+\input{CodeEnvironment}
+
 \makeatletter
 %\DeclareMathSizes{\CTEX@fs@five}{\CTEX@fs@sfour}{7}{5}
 \makeatother
 
-\input{CodeEnvironment}
-
 \setcounter{secnumdepth}{0}
 \setcounter{tocdepth}{3}
-\hypersetup{pdfauthor=BrotherRoot@163.com}
+\hypersetup{pdfauthor=bromine0x23@gmail.com}
 
 \begin{document}
 
+\include{Common/Common}
+\include{Math/Math}
+\include{CG/CG}
 \include{DP/DP}
-\include{DisjointSet/DisjointSet}
+\include{Structure/Structure}
 \include{Graph/Graph}
 \include{String/String}
-\include{CG/CG}
-\include{Math/Math}
-\include{Combine/Combine}
-\include{SegmentTree/SegmentTree}
+\include{NP/NP}
 
 \end{document}

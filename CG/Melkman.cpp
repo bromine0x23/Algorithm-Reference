@@ -1,22 +1,32 @@
-vector<Point> Melkman(vector<Point> const & points) {
-	if (points.size() < 3) {
+vector<Point2D> Melkman(vector<Point2D> const & points) {
+	int const POINT_NUM = points.size();
+	if (POINT_NUM  < 3) {
 		return points;
 	}
-
-	deque<Point> C;
-
-	C.push_back(points[0]);
-	if (direct(points[0], points[1], points[2])<=0) {
-		C.push_back(points[1]);
-		C.push_back(points[2]);
-		C.push_front(points[2]);
-	} else {
-		C.push_back(points[2]);
-		C.push_back(points[1]);
-		C.push_front(points[1]);
+	deque<Point2D> CH;
+	CH.push_back(points[0]);
+	CH.push_back(points[1]);
+	int i=2;
+	for (; i<POINT_NUM; ++i) {
+		if (direct(CH[0], CH[1], points[i]) != STRIGHT) {
+			CH.push_front(i);
+			CH.push_back(i);
+			break;
+		}
+		CH[1] = points[i];
 	}
-
-	for (int i=3; i < points.size(); ++i) {
-
+	if (direct(CH[0], CH[1], CH[2]) == LEFT) {
+		swap(CH[0], CH[2]);
 	}
+	for (++i; i<POINT_NUM; ++i) {
+		for (; direct(CH[1], CH[0], points[i]) != LEFT; ) {
+			CH.pop_front();
+		}
+		CH.push_front(points[i]);
+		for (; direct(CH[CH.size()-2], CH[CH.size()-1], points[i]) != LEFT; ) {
+			CH.pop_back();
+		}
+		CH.push_back(points[i]);
+	}
+	return vector<Point2D>(CH.begin(), CH.end());
 }

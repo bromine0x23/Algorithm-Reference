@@ -4,14 +4,12 @@ vector<int> low;
 vector< vector<int> > component;
 vector<int> component_id;
 int index;
-
-void Tarjan(Graph const & graph) {
+void Tarjan(ListGraph const & graph) {
 	DFS	= vector<int>(graph.vertex_num, -1);
 	low = vector<int>(graph.vertex_num, -1);
-	component = vector< vector<int> >(graph.vertex_num, vector<int>());
+	component = vector< vector<int> >(graph.vertex_num);
 	component_id = vector<int>(graph.vertex_num);
 	index = 0;
-
 	for(int u=0; u < graph.vertex_num; ++u) {
 		if (DFN[u] == -1) {
 			stack<int> S;
@@ -20,9 +18,8 @@ void Tarjan(Graph const & graph) {
 		}
 	}
 }
-
 void Tarjan_main(
-	Graph const & graph,
+	ListGraph const & graph,
 	int & index,
 	stack<int> & S,
 	vector<bool> & in_s,
@@ -31,17 +28,15 @@ void Tarjan_main(
 	DFN[u] = low[u] = index++;
 	S.push(u);
 	in_s[i] = true;
-    for (int v=0; v < graph.vertex_num; ++v) {
-	    if (graph.has_edge(u, v)) {
-		    if (DFN[v] == -1) {
-			    Tarjan_main(graph, S, in_s, v);
-			    low[u] = min_val(low[u], low[v]);
-		    } else if (in_s[v]) {
-		    	low[u] = min_val(low[u], DFN[v]);
-		    }
-	    }
+	for (int e = graph.head[u]; e != -1; e = graph.next[e]) {
+		int v = graph.edges[e].v;
+		if (DFN[v] == -1) {
+			Tarjan_main(graph, S, in_s, v);
+			min_by_ref(low[u], low[v]);
+		} else if (in_s[v]) {
+			min_by_ref(low[u], DFN[v]);
+		}
     }
-
     if (DFN[u] == low[u]) {
 	    ++component_number;
 	    int v;

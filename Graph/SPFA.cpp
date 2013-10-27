@@ -1,26 +1,19 @@
 // $O\left(kE\right)$, $k<2$ in normal
-vector<int> SPFA(Graph const & graph, int source) {
+vector<int> SPFA(ListGraph const & graph, int source) {
 	vector<int> dist(graph.vertex_num, INF);
-	vector<bool> in_queue(graph.vertex_num, false);
-
 	queue<int> Q;
-
-	Q.push(source);
-	dist[source] = 0;
-	in_queue[source] = true;
-
-	while (!Q.empty()) {
-		int u = Q.front(); Q.pop(); in_queue[u] = false;
-		for (int v = 0; v<graph.vertex_num; ++v) { // $\forall (u,v)\in E[G]$
-			if (relax(dist, u, v, graph.edge(u, v)) && !in_queue[v]) {
-				in_queue[v] = true;
-				Q.push(v);
+	vector<bool> visited(graph.vertex_num, false);
+	for (dist[source] = 0, Q.push(source), visited[source] = true; !Q.empty(); ) {
+		int u = Q.front(); Q.pop(); visited[u] = false;
+		for (int e = graph.head[u]; e != -1; e = graph.next[e]) {
+			int v = graph.edges[e].v, w = graph.edges[e].w;
+			if (relax(dist, u, v, w) && !visited[v]) {
+				Q.push(v); visited[v] = true;
 			}
 		}
 	}
 	return dist;
 }
-
 bool relax(vector<int> & dist, int u, int v, int w) {
 	if(dist[u] + w < dist[v]) {
 		dist[v] = dist[u] + w;

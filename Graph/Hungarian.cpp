@@ -2,7 +2,6 @@ BiGraph graph;
 vector<int> match_x;
 vector<int> match_y;
 vector<bool> visited;
-
 int Hungarian() {
 	match_x = vector<int>(graph.x_num, -1);
 	match_y = vector<int>(graph.y_num, -1);
@@ -17,7 +16,6 @@ int Hungarian() {
 	}
 	return match;
 }
-
 bool Hungarian_DFS(int x) {
 	for(int y=0; y < graph.y_num; ++y) {
 		if (graph.edge[x][y] && !visited[y]) {

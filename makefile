@@ -1,5 +1,5 @@
 GOAL_NAME = Code
-GOAL = $(GOAL_NAME).pdf
+$(GOAL_NAME).pdf
 PARTS = \
 	DisjointSet/DisjointSet.tex \
 	Heap/Heap.tex \
@@ -14,9 +14,11 @@ PARTS = \
 
 all: build
 
-build: cleanbuild $(GOAL)
+pdf: $(GOAL_NAME).pdf
 
-$(GOAL): $(GOAL_NAME).tex
+build: cleanbuild $(GOAL_NAME).pdf
+
+$(GOAL_NAME).pdf: $(GOAL_NAME).tex
 	texify.exe --pdf --tex-option=-synctex=1 $^
 	
 $(GOAL_NAME).tex: $(PARTS)
@@ -42,10 +44,38 @@ BiGraph/BiGraph.tex: BiGraph/BiGraph.cpp
 NetworkFlow/NetworkFlow.tex: NetworkFlow/NetworkFlow.cpp
 
 clean:
+	find . -name '*.acn' -type f -print -exec rm -rf {} \;
+	find . -name '*.acr' -type f -print -exec rm -rf {} \;
+	find . -name '*.alg' -type f -print -exec rm -rf {} \;
 	find . -name '*.aux' -type f -print -exec rm -rf {} \;
+	find . -name '*.bbl' -type f -print -exec rm -rf {} \;
+	find . -name '*.blg' -type f -print -exec rm -rf {} \;
+	find . -name '*.dvi' -type f -print -exec rm -rf {} \;
+	find . -name '*.fdb_latexmk' -type f -print -exec rm -rf {} \;
+	find . -name '*.glg' -type f -print -exec rm -rf {} \;
+	find . -name '*.glo' -type f -print -exec rm -rf {} \;
+	find . -name '*.gls' -type f -print -exec rm -rf {} \;
+	find . -name '*.idx' -type f -print -exec rm -rf {} \;
+	find . -name '*.ilg' -type f -print -exec rm -rf {} \;
+	find . -name '*.ind' -type f -print -exec rm -rf {} \;
+	find . -name '*.ist' -type f -print -exec rm -rf {} \;
+	find . -name '*.lof' -type f -print -exec rm -rf {} \;
 	find . -name '*.log' -type f -print -exec rm -rf {} \;
-	-rm $(GOAL_NAME).out
-	-rm $(GOAL_NAME).synctex.gz
+	find . -name '*.lot' -type f -print -exec rm -rf {} \;
+	find . -name '*.maf' -type f -print -exec rm -rf {} \;
+	find . -name '*.mtc' -type f -print -exec rm -rf {} \;
+	find . -name '*.mtc0' -type f -print -exec rm -rf {} \;
+	find . -name '*.nav' -type f -print -exec rm -rf {} \;
+	find . -name '*.nlo' -type f -print -exec rm -rf {} \;
+	find . -name '*.out' -type f -print -exec rm -rf {} \;
+	find . -name '*.pdfsync' -type f -print -exec rm -rf {} \;
+	find . -name '*.ps' -type f -print -exec rm -rf {} \;
+	find . -name '*.snm' -type f -print -exec rm -rf {} \;
+	find . -name '*.synctex.gz' -type f -print -exec rm -rf {} \;
+	find . -name '*.toc' -type f -print -exec rm -rf {} \;
+	find . -name '*.tdo' -type f -print -exec rm -rf {} \;
+	find . -name '*.vrb' -type f -print -exec rm -rf {} \;
+	find . -name '*.xdy' -type f -print -exec rm -rf {} \;
 	
 cleanall: clean cleanbuild
 	
