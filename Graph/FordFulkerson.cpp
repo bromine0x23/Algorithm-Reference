@@ -1,8 +1,8 @@
+// $O(E|f|)$, $f$ is max flow value
 Graph graph;
 vector< vector<int> > flow;
 vector<int> prev;
 int FordFulkerson(int source, int sink) {
-	// $O(E|f|)$, $f$ is max flow value
 	int max_flow = 0;
 	flow = vector< vector<int> >(
 		graph.V,

@@ -18,30 +18,30 @@ void init() {
 	root = 0;
 	count = 0;
 }
-void rotate(int & x, int f) {
-	int y = nodes[x].child[f];
-	nodes[x].c[f] = nodes[y].c[!f];
-	nodes[y].c[!f] = x;
+void rotate(int & x, bool r) {
+	int y = nodes[x].child[!r];
+	nodes[x].c[!r] = nodes[y].c[r];
+	nodes[y].c[r] = x;
 	nodes[y].s = nodes[x].s;
-	nodes[x].s = nodes[nodes[x].l].s + nodes[nodes[x].r].s + 1;
+	nodes[x].s = nodes[nodes[x].l].s + 1 + nodes[nodes[x].r].s;
 	x = y;
 }
 int find(int x, int k) {
 	return x && nodes[x].k != k ? find(nodes[x].c[k>=nodes[x].k], k) : x;
 }
-void maintain(int & x, int f) {
-	if (nodes[nodes[nodes[x].c[f]].c[f]].s > nodes[nodes[x].c[!f]].s) {
-		rotate(x, !f);
-	} else if (nodes[nodes[nodes[x].c[f]].c[!f]].s > nodes[nodes[x].c[!f]].s) {
-		rotate(nodes[x].c[f], f);
-		rotate(x, !f);
+void maintain(int & x, bool r) {
+	if (nodes[nodes[nodes[x].c[r]].c[r]].s > nodes[nodes[x].c[!r]].s) {
+		rotate(x, !r);
+	} else if (nodes[nodes[nodes[x].c[r]].c[!r]].s > nodes[nodes[x].c[!r]].s) {
+		rotate(nodes[x].c[r], r);
+		rotate(x, !r);
 	} else {
 		return;
 	}
-	maintain(nodes[x].l, 0);
-	maintain(nodes[x].r, 1);
-	maintain(x, 0);
-	maintain(x, 1);
+	maintain(nodes[x].l, false);
+	maintain(nodes[x].r, true);
+	maintain(x, false);
+	maintain(x, true);
 }
 void insert(int & t, int v) {
 	if (t == 0) {

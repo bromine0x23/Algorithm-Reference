@@ -8,10 +8,10 @@ struct DijkstraCmp {
 };
 // $O\left(E\lg V\right)$
 vector<int> Dijkstra(ListGraph const & graph, int source) {
-	vector<int> dist(graph.vertex_num, INF); dist[source] = 0;
+	vector<int> dist(graph.V, INF); dist[source] = 0;
 	set<int, DijkstraCmp> Q(DijkstraCmp(dist));
-	for(int vi=0; vi<graph.vertex_num; ++vi) { Q.insert(vi); }
-	vector<bool> in_q(vertex_num, true);
+	for (int vi=0; vi<graph.V; ++vi) { Q.insert(vi); }
+	vector<bool> in_q(graph.V, true);
 	for (; !Q.empty(); ) {
 		int u = *Q.begin(); Q.erase(u); in_q[u] = false;
 		for (int e = graph.head[u]; e != -1; e = graph.next[e] ) {

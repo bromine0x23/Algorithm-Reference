@@ -1,10 +1,6 @@
-int n;
-int val[MAXN];
-
-int pow2[LOG2_MAXN];
-int idx[MAXN];
+int n, val[MAXN];
+int idx[MAXN], pow2[LOG2_MAXN];
 int max_val[MAXM][MAXN];
-
 void RMQ1D_init() {
 	idx[0] = -1;
 	for (int i=1; i<N; ++i) {
@@ -20,11 +16,11 @@ void RMQ1D() {
 	}
 	for (int i=1; pow2[i] <= n; ++i) {
 		for (int j=1; j + pow2[i]-1 <= n; ++j) {
-			max_val[i][j] = max_by_val(max_val[i-1][j+pow2[i-1]], max_val[i-1][j]);
+			max_val[i][j] = max(max_val[i-1][j+pow2[i-1]], max_val[i-1][j]);
 		}
 	}
 }
 int RMQ1D_query(int l, int r) {
 	int t = idx[r-l+1];
-	return  max_by_val(max_val[t][l], max_val[t][r-p[t]+1]);
+	return  max(max_val[t][l], max_val[t][r-p[t]+1]);
 }

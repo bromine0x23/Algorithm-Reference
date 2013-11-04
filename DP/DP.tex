@@ -1,5 +1,5 @@
+\SetPath{DP}
 \section{动态规划}
-
 \subsection{典型方程}
 如果子问题数目为$O(n^t)$，且每个子问题要依赖于$O(n^e)$个其他子问题，那么称这个问题为$tD/eD$的。
 \begin{align}
@@ -45,7 +45,6 @@
 		\tag*{\text{2D/2D}}
 \end{align}
 
-
 \subsection{四边形优化}
 对于2D/1D型方程，如果w满足区间单调性
 \begin{displaymath}
@@ -69,7 +68,13 @@
 \end{displaymath}
 
 \subsection{一维RMQ}
-\lstinputlisting[style=colored_cpp]{DP/RMQ1D.cpp}
-
+\CPPSource{RMQ1D}
 \subsection{二维RMQ}
-\lstinputlisting[style=colored_cpp]{DP/RMQ2D.cpp}
+\CPPSource{RMQ2D}
+
+\subsection{01背包}
+\CPPSource{zero_one_knapsack}
+\subsection{完全背包}
+\CPPSource{complete_knapsack}
+\subsection{多重背包}
+\CPPSource{multiple_knapsack}

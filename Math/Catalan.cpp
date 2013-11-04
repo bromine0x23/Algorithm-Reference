@@ -1,6 +1,5 @@
 vector<int> C;
-void Catalan(int n);
-{
+void Catalan(int n) {
 	C = vector<int>(n+1);
 	C[0] = 1;
 	for (int i=1; i<=n; ++i) {

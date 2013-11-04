@@ -1,10 +1,6 @@
-int n, m;
-int val[MAXN][MAXN];
-
-int idx[MAXN];
-int pow2[LOG2_MAXN];
+int n, m, val[MAXN][MAXN];
+int idx[MAXN], pow2[LOG2_MAXN];
 int max_val[MAXM][MAXN][MAXN];
-
 void RQM2D_init() {
 	idx[0] = -1;
 	for (int i=1; i<N; ++i) {
@@ -15,7 +11,7 @@ void RQM2D_init() {
 	}
 }
 void RMQ2D() {
-	int mind = min_by_val(n,m);
+	int mind = min(n,m);
 	for (int k=0; pow2[k]<=mind; ++k) {
 		for (int i=1; i<=n; ++i) {
 			for (int j=1; j<=m; ++j) {
@@ -28,13 +24,13 @@ void RMQ2D() {
 			for (int j=1; j<=m; ++j) {
 				max_val[k][i][j] = max_val[k-1][i][j];
 				if (i + pow2[k-1] <= n) {
-					max_by_ref(max_val[k][i][j], max_val[k-1][i+pow2[k-1]][j]);
+					maxr(max_val[k][i][j], max_val[k-1][i+pow2[k-1]][j]);
 				}
 				if (j + pow2[k-1] <= m) {
-					max_by_ref(max_val[k][i][j], max_val[k-1][i][j+pow2[k-1]]);
+					maxr(max_val[k][i][j], max_val[k-1][i][j+pow2[k-1]]);
 				}
 				if (i + pow2[k-1] <= n && j + pow2[k-1] <= m) {
-					max_by_ref(max_val[k][i][j], max_val[k-1][i+pow2[k-1]][j+pow2[k-1]]);
+					maxr(max_val[k][i][j], max_val[k-1][i+pow2[k-1]][j+pow2[k-1]]);
 				}
 			}
 		}
@@ -51,7 +47,7 @@ int RMQ2D_query(int x1, int y1, int x2, int y2) {
 			if(j+pow2[k]>y2) {
 				j = y2 - pow2[k] + 1;
 			}
-			max_by_ref(max_ans, max_val[k][i][j]);
+			maxr(max_ans, max_val[k][i][j]);
 		}
 	}
 	return max_ans;

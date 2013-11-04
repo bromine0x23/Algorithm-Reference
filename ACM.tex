@@ -1,17 +1,19 @@
-\documentclass[fancyhdr,hyperref,a4paper,UTF8,leqno]{ctexrep}
-\usepackage[bookmarksopen,pdfstartview=FitH]{hyperref}
+\documentclass[fancyhdr,hyperref,a4paper,UTF8,leqno]{ctexbook}
+\usepackage[bookmarksopen,pdfstartview=FitH,colorlinks=false]{hyperref}
 \usepackage[hmargin={2cm, 1cm},vmargin=2cm]{geometry}
-
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{cases}
+\setmonofont{DejaVu Sans Mono}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[ER,OL]{bromine0x23@gmail.com}
+\fancyhead[EL,OR]{\rightmark}
+\fancyfoot[C]{\thepage}
 
 \input{MathEnvironment}
 \input{CodeEnvironment}
-
-\makeatletter
-%\DeclareMathSizes{\CTEX@fs@five}{\CTEX@fs@sfour}{7}{5}
-\makeatother
 
 \setcounter{secnumdepth}{0}
 \setcounter{tocdepth}{3}
@@ -19,13 +21,16 @@
 
 \begin{document}
 
-\include{Common/Common}
+\title{Algorithm Reference}
+\author{bromine0x23@gmail.com}
+\maketitle
+\tableofcontents
 \include{Math/Math}
 \include{CG/CG}
 \include{DP/DP}
-\include{Structure/Structure}
 \include{Graph/Graph}
-\include{String/String}
 \include{NP/NP}
+\include{String/String}
+\include{Structure/Structure}
 
 \end{document}

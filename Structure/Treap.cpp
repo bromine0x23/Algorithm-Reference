@@ -1,10 +1,12 @@
+// time complexity of each operation is amortized $O(\log n)$
 struct Treap {
-	int key, weight, count, size;
+	int k; // key
+	int w; // weight
+	int c; // node multiplicity
+	int s; // sub tree size
 	union {
-		int child[2];
-		struct {
-			int left, right;
-		};
+		int c[2];
+		struct { int l, r; };
 	};
 };
 Treap treap[MAX_NODE_NUM];
@@ -13,63 +15,63 @@ int root;
 void init(){
 	root = 0;
 	node_count = 0;
-	treap[root].size = node_count;
-	treap[root].weight = -INF;
+	treap[root].r = treap[root].l = 0;
+	treap[root].s = 0;
+	treap[root].w = -INF;
 }
 void update(int x) {
-	treap[x].size = treap[treap[x].left].size + treap[x].count + treap[treap[x].right].size;
+	treap[x].s = treap[treap[x].l].s + treap[x].c + treap[treap[x].r].s;
 }
-void rotate(int & x, int f) {
-    int y = treap[x].child[f];
-    treap[x].child[f] = treap[y].child[1-f];
-    treap[y].child[1-f] = x;
-    update(x);
-    update(y);
+void rotate(int & x, bool r) {
+    int y = treap[x].c[!r];
+    treap[x].c[!r] = treap[y].c[r];
+    treap[y].c[r] = x;
+    update(x);  update(y);
     x = y;
 }
-void insert(int & x, int f) {
+void insert(int & x, int v) {
 	if (!x) {
 		x = ++node_count;
-		treap[x].key = f;
-		treap[x].weight = rand();
-		treap[x].count = 1;
-		treap[x].right = treap[x].left = 0;
-	} else if (treap[x].key == f) {
-		++treap[x].count;
+		treap[x].k = v;
+		treap[x].w = rand();
+		treap[x].c = 1;
+		treap[x].r = treap[x].l = 0;
+	} else if (treap[x].k == v) {
+		++treap[x].c;
 	} else {
-		int k = (treap[x].key < f);
-		insert(treap[x].child[k], f);
-		if (treap[x].weight < treap[treap[x].child[k]].weight) {
-			rotate(x, k);
+		bool r = (f < treap[x].k);
+		insert(treap[x].c[r], v);
+		if (treap[x].w < treap[treap[x].c[r]].w) {
+			rotate(x, r);
 		}
 	}
 	update(x);
 }
-void erase(int & x, int f) {
-	if (treap[x].key == f) {
-		if (treap[x].count == 1) {
-			if (!treap[x].left && !treap[x].right) {
+void erase(int & x, int v) {
+	if (treap[x].key == v) {
+		if (treap[x].c == 1) {
+			if (treap[x].l==0 && treap[x].r==0) {
 				x = 0;
 				return;
 			}
-			rotate(x, treap[treap[x].left].weight<treap[treap[x].right].weight);
-			erase(x, f);
+			rotate(x, treap[treap[x].r].w < treap[treap[x].l].w);
+			erase(x, v);
 		} else {
-			--treap[x].count;
+			--treap[x].c;
 		}
 	} else {
-		erase(treap[x].child[treap[x].key<f], f);
+		erase(treap[x].c[f<treap[x].k], f);
 	}
 	update(x);
 }
-int select(int x,int k) {
+int select(int x, int k) {
 	if (k<=0) {
 		return -1;
 	}
-	if (k<=treap[treap[x].left].size) {
-		return select(treap[x].left, k);
+	if (k<=treap[treap[x].l].s) {
+		return select(treap[x].l, k);
 	}
-	return k<=treap[treap[x].left].size+treap[x].count
+	return k<=treap[treap[x].l].s+treap[x].c
 		? treap[x].key
-		: select(treap[x].right, k-treap[treap[x].left].size-treap[x].count);
+		: select(treap[x].r, k-treap[treap[x].l].s-treap[x].c);
 }

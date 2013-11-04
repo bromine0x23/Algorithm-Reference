@@ -1,6 +1,5 @@
 BiGraph graph;
-vector<int> match_x;
-vector<int> match_y;
+vector<int> match_x, match_y;
 vector<bool> visited;
 int Hungarian() {
 	match_x = vector<int>(graph.x_num, -1);

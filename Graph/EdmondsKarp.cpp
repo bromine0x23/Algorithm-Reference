@@ -1,4 +1,3 @@
-
 // $O(VE^2)$
 int EdmondsKarp(Graph & graph, int source, int sink) {
 	int max_flow = 0;

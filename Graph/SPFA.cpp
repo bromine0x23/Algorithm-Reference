@@ -1,8 +1,8 @@
 // $O\left(kE\right)$, $k<2$ in normal
 vector<int> SPFA(ListGraph const & graph, int source) {
-	vector<int> dist(graph.vertex_num, INF);
+	vector<int> dist(graph.V, INF);
 	queue<int> Q;
-	vector<bool> visited(graph.vertex_num, false);
+	vector<bool> visited(graph.V, false);
 	for (dist[source] = 0, Q.push(source), visited[source] = true; !Q.empty(); ) {
 		int u = Q.front(); Q.pop(); visited[u] = false;
 		for (int e = graph.head[u]; e != -1; e = graph.next[e]) {

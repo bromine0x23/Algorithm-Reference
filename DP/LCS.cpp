@@ -1,8 +1,10 @@
 enum Pace { LEFT, UP, LEFT_UP };
-pair< vector< vector< int> >, vector< vector< Pace> > > LCIS(string const & X, string const & Y) {
+vector< vector<int> > dp;
+vector< vector<Pace> > path;
+void LCIS(string const & X, string const & Y) {
 	int x_len = X.length(), y_len = Y.length();
-	vector< vector<int> > dp(x_len+1, vector<int>(y_len+1, 0));
-	vector< vector<Pace> > path(x_len+1, vector<int>(y_len+1, 0));
+	dp = vector< vector<int> >(x_len+1, vector<int>(y_len+1, 0));
+	path = vector< vector<Pace> >(x_len+1, vector<Pace>(y_len+1, 0));
 	for (int xi=0; xi < x_len; ++xi) {
 		for (int yi=0; yi < y_len; ++yi) {
 			if (X[xi] == Y[yi]) {
@@ -17,17 +19,16 @@ pair< vector< vector< int> >, vector< vector< Pace> > > LCIS(string const & X, s
 			}
 		}
 	}
-	return make_pair(dp, path);
 }
-void print_path(vector< vector< Pace> > const & path, string const & X, int i, int j) {
+void print_path(string const & X, int i, int j) {
 	if (i>0 && j>0) {
 		if (path[i-1][j-1] == LEFT_UP) {
-			print_path(path, X, i-1, j-1);
+			print_path(X, i-1, j-1);
 			putchar(X[i-1]);
 		} else if (path[i-1][j-1] == UP) {
-			print_path(path, X, i-1, j);
+			print_path(X, i-1, j);
 		} else {
-			print_path(path, X, i, j-1);
+			print_path(X, i, j-1);
 		}
 	}
 }

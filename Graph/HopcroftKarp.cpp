@@ -1,26 +1,23 @@
-vector<int> match_x;
-vector<int> match_y;
-vector<int> dist_x;
-vector<int> dist_y;
+BiGraph const & graph
+vector<int> match_x, match_y;
+vector<int> dist_x, dist_y;
 vector<bool> visited;
 int dist_nil;
-int HopcroftKarp(BiGraph const & graph) {
-	match_x = vector<int>(graph.x_num, -1);
-	match_y = vector<int>(graph.y_num, -1);
+int HopcroftKarp() {
+	match_x = vector<int>(graph.x_num, -1); match_y = vector<int>(graph.y_num, -1);
 	int match = 0;
 	while (HopcroftKarp_BFS()) {
 		visited = vector<bool>(graph.y_num, false);
 		for (int x=0; x<graph.x_num; ++x) {
-			if (match_x[x] == -1 && HopcroftKarp_DFS(graph, x)) {
+			if (match_x[x] == -1 && HopcroftKarp_DFS(x)) {
 				++match;
 			}
 		}
 	}
 	return match;
 }
-bool HopcroftKarp_BFS(BiGraph const & graph) {
-	dist_x = vector<int>(graph.x_num, INF);
-	dist_y = vector<int>(graph.y_num, INF);
+bool HopcroftKarp_BFS() {
+	dist_x = vector<int>(graph.x_num, INF); dist_y = vector<int>(graph.y_num, INF);
 	queue<int> Q;
 	for (int x=0; x<graph.x_num; ++x) {
 		if (match_x[x] == -1) {
@@ -45,11 +42,11 @@ bool HopcroftKarp_BFS(BiGraph const & graph) {
 	}
 	return dist_nil != INF;
 }
-bool HopcroftKarp_DFS(BiGraph const & graph, int x) {
+bool HopcroftKarp_DFS(int x) {
 	for (int y=0; y<graph.y_num; ++y) {
 		if(!visited[y] && dist_y[y] == dist_x[x] + 1) {
 			visited[y] = true;
-			if(match_y[y] == -1 || HopcroftKarp_DFS(graph, match_y[v])) {
+			if(match_y[y] == -1 || HopcroftKarp_DFS(match_y[v])) {
 				match_x[x] = y; match_y[y] = x;
 				return true;
 			}

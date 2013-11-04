@@ -65,9 +65,3 @@ Vector2D outer_norm(Vector2D v1, Vector2D v2) {
 Point2D foot(Point2D p, Point2D orig, Vector2D dire) {
 	return orig - dire.norm2() * (1.0 / inner(p-orig, dire)) * dire;
 }
-Point2D rotate(Point2D p, Point2D orig, Vector2D dire, Vector2D::ValType ang) {
-	Point2D root = foot(p, orig, dire);
-	Point2D u = p - root;
-	Point2D v = r * dire.unit();
-	return root + u * cos(ang) - v * sin(ang);
-}

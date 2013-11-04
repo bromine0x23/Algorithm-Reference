@@ -1,18 +1,28 @@
+\SetPath{Math}
+
 \section{数学相关}
+
+\subsection{素数筛法}
+\CPPSource{prime}
+
+\subsection{欧拉函数}
+欧拉函数$\phi(n)$的值为不大于n的正整数中与n互质的数的个数
+\CPPSource{Euler}
+
 \subsection{欧几里德算法}
-\lstinputlisting[style=colored_cpp]{Math/Euclid.cpp}
+\CPPSource{Euclid}
 
 \subsection{快速幂}
-\lstinputlisting[style=colored_cpp]{Math/fast_pow.cpp}
+\CPPSource{fast_pow}
 
 \subsection{中国剩余定理}
-\lstinputlisting[style=colored_cpp]{Math/ChineseRem.cpp}
+\CPPSource{ChineseRem}
 
 \subsection{大数运算}
-\lstinputlisting[style=colored_cpp]{Math/Bignum.cpp}
+\CPPSource{Bignum}
 
 \subsection{矩阵运算}
-\lstinputlisting[style=colored_cpp]{Math/Matrix.cpp}
+\CPPSource{Matrix}
 
 \subsection{第二类Stirling数}
 $n$个元素的集定义$k$个等价类的方法数目，记为$S(n,k)$
@@ -29,7 +39,7 @@ S(n-1, k-1) + kS(n-1, k) & 2\leqslant k < n\\
 \end{cases}
 \end{displaymath}
 $$ $$
-\lstinputlisting[style=colored_cpp]{Math/Stirling2.cpp}
+\CPPSource{Stirling2}
 
 \subsection{Catalan数}
 $n$个节点组成的不同构二叉树个数
@@ -42,10 +52,10 @@ C_{n+1} = & \sum_{i=0}^n C_i C_{n-i}
 C_0     = & 0 \\
 C_{n+1} = & \frac{2(2n+1)}{n+2} C_n
 \end{align*}
-\lstinputlisting[style=colored_cpp]{Math/Catalan.cpp}
+\CPPSource{Catalan}
 
 \subsection{康托(Cantor)展开}
-\lstinputlisting[style=colored_cpp]{Math/Cantor.cpp}
+\CPPSource{Cantor}
 
 \subsection{卢卡斯(Lucas)定理}
-\lstinputlisting[style=colored_cpp]{Math/Lucas.cpp}
+\CPPSource{Lucas}

@@ -104,9 +104,7 @@ void resume(int x) {
 }
 bool DLX(deque<int> & ans, int k) {
 	int c = nodes[0].R;
-	if (c == 0) {
-		return true; // get ans
-	}
+	if (c == 0) { return true; }
 	remove(c);
 	for (int i=nodes[c].D; i!=c; i=nodes[i].D) {
 		ans.push_back(nodes[i].row);
@@ -120,7 +118,7 @@ bool DLX(deque<int> & ans, int k) {
 			resume(nodes[j].col);
 		}
 		ans.pop_back();
-    }
-    resume(c);
-    return false;
+	}
+	resume(c);
+	return false;
 }
