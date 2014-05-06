@@ -4,7 +4,8 @@ struct MatrixGraph {
 	int E; // edge amount
 	int weight[MAX_VERTIX][MAX_VERTIX];
 	int build(int vn) {
-		E = V = 0;
+		V = vn;
+		E = 0;
 		for (int i=0; i<V; ++i) {
 			for (int j=0; j<V; ++j) {
 				weight[i][j] = INF;

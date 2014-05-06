@@ -16,6 +16,18 @@
 	belowskip=0pt
 }
 
+\lstdefinestyle{colored_ruby}{
+	language=Ruby,
+	basicstyle=\ttfamily\small,
+%	keywordstyle=\bfseries,
+	keywordstyle=\bfseries\color{blue},
+%	commentstyle=\itshape,
+	commentstyle=\itshape\color{green!50!black},
+	lineskip=0pt,
+	aboveskip=0pt,
+	belowskip=0pt
+}
+
 \lstset{
 	numbers=left,
 	tabsize=4,
@@ -28,3 +40,4 @@
 \newcommand*{\Path}{}
 \newcommand*{\SetPath}[1]{\renewcommand*{\Path}{#1}}
 \newcommand*{\CPPSource}[1]{\lstinputlisting[style=colored_cpp]{\Path/#1.cpp}}
+\newcommand*{\RubySource}[1]{\lstinputlisting[style=colored_ruby]{\Path/#1.rb}}
