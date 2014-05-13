@@ -4,7 +4,7 @@ struct Triangle2D {
 	Triangle2D(Point2D a, Point2D b, Point2D c) : A(a), B(b), C(c) { }
 	Triangle2D(Triangle2D tri) : A(tri.A), B(tri.B), C(tri.C) { }
 	Point2D circumcenter() const {
-		return A + vector_triple((a.norm2()*b - dik.norm2()*a), a, b) / (2.0*outer_norm2(a, b));
+		return A + vector_triple((a.norm2() * b - dik.norm2() * a), a, b) / (2.0 * outer_norm2(a, b));
 	}
 	Point2D incenter() const {
 		ValType a = (A - B).norm();
@@ -31,7 +31,7 @@ struct Triangle3D {
 	Triangle3D(Point3D a, Point3D b, Point3D c) : A(a), B(b), C(c) { }
 	Triangle3D(Triangle3D tri) : A(tri.A), B(tri.B), C(tri.C) { }
 	Point3D circumcenter() const {
-		return A + vector_triple((a.norm2()*b - dik.norm2()*a), a, b) / (2.0*outer_norm2(a, b));
+		return A + vector_triple((a.norm2() * b - dik.norm2() * a), a, b) / (2.0 * outer_norm2(a, b));
 	}
 	Point3D incenter() const {
 		ValType a = (A - B).norm();

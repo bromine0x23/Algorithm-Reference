@@ -1,119 +1,149 @@
-template<class Tp, int SIZE>
+template<typename value_type, int size>
 struct Row {
-	typedef Tp ValType;
-	ValType r[SIZE];
-	ValType & operator()(int j) { return r[j]; }
-	ValType const & operator()(int j) const { return r[j]; }
+	value_type r[size];
+	Row() {
+		for (int j = 0; j < size; ++j) {
+			r[j] = 0;
+		}
+	}
+	value_type & operator()(int j) {
+		return r[j];
+	}
+	value_type const & operator()(int j) const {
+		return r[j];
+	}
 	Row & operator=(Row const & y) {
-		for (int j=0; j<SIZE; ++j) {
-			(*this)(j) = y(j);
+		for (int j = 0; j < size; ++j) {
+			r[j] = y(j);
 		}
 		return *this;
 	}
 };
-template<class Tp, int SIZE>
-struct Col {
-	typedef Tp ValType;
-	ValType c[SIZE];
-	ValType & operator()(int i) { return c[i]; }
-	ValType const & operator()(int i) const { return c[i]; }
-	Col & operator=(Col const & y) {
-		for (int i=0; i<SIZE; ++i) {
-			(*this)(i) = y(i);
+template<typename value_type, int size>
+struct Column {
+	value_type c[size];
+	Column() {
+		for (int i = 0; i < size; ++i) {
+			c[i] = 0;
+		}
+	}
+	value_type & operator()(int i) {
+		return c[i];
+	}
+	value_type const & operator()(int i) const {
+		return c[i];
+	}
+	Column & operator=(Column const & y) {
+		for (int i = 0; i < size; ++i) {
+			c[i] = y(i);
 		}
 		return *this;
 	}
 };
-template<class Tp, int SIZE>
-struct SqrMatrix {
-	typedef Tp ValType;
-	ValType s[SIZE][SIZE];
-	ValType & operator()(int i, int j) { return s[i][j]; }
-	ValType operator()(int i, int j) const { return s[i][j]; }
-	SqrMatrix & operator=(SqrMatrix const & y) {
-		for (int i=0; i<SIZE; ++i) {
-			for (int j=0; j<SIZE; ++j) {
-				(*this)(i, j) = y(i, j);
+template<typename value_type, int size>
+struct Square {
+	value_type s[size][size];
+	Square() {
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < size; ++j) {
+				s[i][j] = 0;
+			}
+		}
+	}
+	value_type & operator()(int i, int j) {
+		return s[i][j];
+	}
+	value_type operator()(int i, int j) const {
+		return s[i][j];
+	}
+	Square & operator=(Square const & y) {
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < size; ++j) {
+				s[i][j] = y(i, j);
 			}
 		}
 		return *this;
 	}
-	SqrMatrix & operator+=(SqrMatrix const & y) {
-		for (int i=0; i<SIZE; ++i) {
-			for (int j=0; j<SIZE; ++j) {
-				(*this)(i, j) += y(i, j);
+	Square & operator+=(Square const & y) {
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < size; ++j) {
+				s[i][j] += y(i, j);
 			}
 		}
 		return *this;
 	}
-	SqrMatrix & operator*=(int y) {
-		for (int i=0; i<SIZE; ++i) {
-			for (int j=0; j<SIZE; ++j) {
-				(*this)(i, j) *= y;
+	Square & operator*=(int y) {
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < size; ++j) {
+				s[i][j] += y;
 			}
 		}
 		return *this;
 	}
-	SqrMatrix operator-() const {
-		SqrMatrix res;
-		for (int i=0; i<SIZE; ++i) {
-			for (int j=0; j<SIZE; ++j) {
-				res(i, j) = -(*this)(i, j);
+
+	Square operator-() const {
+		Square square;
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < size; ++j) {
+				square(i, j) = -s[i][j];
+			}
+		}
+		return square;
+	}
+	Square operator~() const {
+		Square square;
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < size; ++j) {
+				square(i, j) = s[j][i];
 			}
 		}
 		return *this;
 	}
-	SqrMatrix operator~() const {
-		SqrMatrix res;
-		for (int i=0; i<SIZE; ++i) {
-			for (int j=0; j<SIZE; ++j) {
-				res(i, j) = (*this)(j, i);
+	static Square identity() {
+		Square square;
+		for (int i = 0; i < size; ++i) {
+			for (int j = 0; j < size; ++j) {
+				square(i, j) = (i == j ? 1 : 0);
 			}
 		}
-		return *this;
-	}
-	static SqrMatrix identity() {
-		SqrMatrix res;
-		for (int i=0; i<SIZE; ++i) {
-			for (int j=0; j<SIZE; ++j) {
-				res(i, j) = (i == j);
-			}
-		}
-		return res;
+		return square;
 	}
 };
-template<class Tp, int SIZE>
-SqrMatrix<Tp, SIZE> operator*(SqrMatrix<Tp, SIZE> const & x, SqrMatrix<Tp, SIZE> const & y) {
-	SqrMatrix<Tp, SIZE> res;
-	for (int i=0; i<SIZE; ++i) {
-		for (int j=0; j<SIZE; ++j) {
-			Tp t = 0;
-			for (int k=0; k<SIZE; ++k) {
+template<typename value_type, int size>
+Square<value_type, size> operator*(Square<value_type, size> const & x, Square<value_type, size> const & y) {
+	Square<value_type, size> square;
+	for (int i = 0; i < size; ++i) {
+		for (int j = 0; j < size; ++j) {
+			value_type t = 0;
+			for (int k = 0; k < size; ++k) {
 				t += x(i, k) * y(k, j);
 			}
-			res(i, j) = t;
+			square(i, j) = t;
 		}
 	}
+	return square;
 }
-template<class Tp, int SIZE>
-Row<Tp, SIZE> operator*(Row<Tp, SIZE> const & x, SqrMatrix<Tp, SIZE> const & y) {
-	Row<Tp, SIZE> res;
-	for (int j=0; j<SIZE; ++j) {
-		Tp t = 0;
-		for (int k=0; k<SIZE; ++k) {
+template<typename value_type, int size>
+Row<value_type, size> operator*(Row<value_type, size> const & x, Square<value_type, size> const & y) {
+	Row<value_type, size> row;
+	for (int j = 0; j < size; ++j) {
+		value_type t = 0;
+		for (int k = 0; k < size; ++k) {
 			t += x(k) * y(k, j);
 		}
-		res(j) = t;
+		row(j) = t;
 	}
+	return row;
 }
-template<class Tp, int SIZE>
-Col<Tp, SIZE> operator*(SqrMatrix<Tp, SIZE> const & x, Col<Tp, SIZE> const & y) {
-	Col<Tp, SIZE> res;
-	for (int i=0; i<SIZE; ++i) {
-		Tp t = 0;
-		for (int k=0; k<SIZE; ++k) {
+template<typename value_type, int size>
+Column<value_type, size> operator*(Square<value_type, size> const & x, Column<value_type, size> const & y) {
+	Column<value_type, size> column;
+	for (int i = 0; i < size; ++i) {
+		value_type t = 0;
+		for (int k = 0; k < size; ++k) {
 			t += x(i, k) * y(k);
 		}
-		res(i) = 0;
+		column(i) = t;
 	}
+	return column
 }

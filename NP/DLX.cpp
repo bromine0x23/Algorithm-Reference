@@ -12,9 +12,9 @@ void init(int C) {
 	// $N_1 \cdots N_C$ is column's head
 	row_num = 0;
 	col_num = C;
-	for (int col=0; col<=col_num; ++col) {
-		nodes[col].L = col-1;
-		nodes[col].R = col+1;
+	for (int col = 0; col <= col_num; ++col) {
+		nodes[col].L = col - 1;
+		nodes[col].R = col + 1;
 		nodes[col].D = nodes[col].U = col;
 		nodes[col].col = col;
 		nodes[col].row = 0;
@@ -28,16 +28,16 @@ int new_node() {
 	return ++node_num;
 }
 void add_line(bool row[]) {
-	for (int col=1; col<=col_num; ++col) {
-		if (row[col-1]) {
+	for (int col = 1; col <= col_num; ++col) {
+		if (row[col - 1]) {
 			int x = new_node();
-			if (col==1) {
+			if (col == 1) {
 				nodes[x].R = nodes[x].L = x;
 			} else {
-				nodes[x].L = x-1;
-				nodes[x].R = nodes[x-1].R;
-				nodes[nodes[x-1].R].L = x;
-				nodes[x-1].R = x;
+				nodes[x].L = x - 1;
+				nodes[x].R = nodes[x - 1].R;
+				nodes[nodes[x - 1].R].L = x;
+				nodes[x - 1].R = x;
 			}
 			nodes[x].D = col;
 			nodes[x].U = nodes[col].U;
@@ -51,15 +51,15 @@ void add_line(bool row[]) {
 }
 // index range is $\{1, 2, \cdots, C\}$
 void add_line_by_index(int col_index[], int index_num) {
-	for (int col=0; col<index_num; ++col) {
+	for (int col = 0; col < index_num; ++col) {
 		int x = new_node();
-		if (col==0) {
+		if (col == 0) {
 			nodes[x].R = nodes[x].L = x;
 		} else {
-			nodes[x].L = x-1;
-			nodes[x].R = nodes[x-1].R;
-			nodes[nodes[x-1].R].L = x;
-			nodes[x-1].R = x;
+			nodes[x].L = x - 1;
+			nodes[x].R = nodes[x - 1].R;
+			nodes[nodes[x - 1].R].L = x;
+			nodes[x - 1].R = x;
 		}
 		nodes[x].D = col_index[ri];
 		nodes[x].U = nodes[col_index[ri]].U;
@@ -80,8 +80,8 @@ void removeUD(int x) {
 }
 void remove(int x) {
 	removeLR(x);
-	for (int i=nodes[x].D; i!=x; i=nodes[i].D) {
-		for (int j=nodes[i].R; j!=i; j=nodes[j].R) {
+	for (int i = nodes[x].D; i != x; i = nodes[i].D) {
+		for (int j = nodes[i].R; j != i; j = nodes[j].R) {
 			removeUD(j);
 			--size[nodes[j].col];
 		}
@@ -94,8 +94,8 @@ void resumeUD(int x) {
 	nodes[nodes[x].U].D = nodes[nodes[x].D].U = x;
 }
 void resume(int x) {
-	for (int i=nodes[x].U; i!=x; i=nodes[i].U) {
-		for (int j=nodes[i].L; j!=i; j=nodes[j].L) {
+	for (int i = nodes[x].U; i != x; i = nodes[i].U) {
+		for (int j = nodes[i].L; j != i; j = nodes[j].L) {
 			removeUD(j);
 			++size[nodes[j].col];
 		}
@@ -106,15 +106,15 @@ bool DLX(deque<int> & ans, int k) {
 	int c = nodes[0].R;
 	if (c == 0) { return true; }
 	remove(c);
-	for (int i=nodes[c].D; i!=c; i=nodes[i].D) {
+	for (int i = nodes[c].D; i != c; i = nodes[i].D) {
 		ans.push_back(nodes[i].row);
-		for (int j=nodes[i].R; j!=i; j=nodes[j].R) {
+		for (int j = nodes[i].R; j != i; j = nodes[j].R) {
 			remove(nodes[j].col);
 		}
-		if (DLX(ans, k+1)) {
+		if (DLX(ans, k + 1)) {
 			return true;
 		}
-		for (int j=nodes[i].L; j!=i; j=nodes[j].L) {
+		for (int j = nodes[i].L; j != i; j = nodes[j].L) {
 			resume(nodes[j].col);
 		}
 		ans.pop_back();

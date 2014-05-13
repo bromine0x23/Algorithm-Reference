@@ -8,7 +8,7 @@ struct ACAuto {
 		root = new_node();
 	}
 	int new_node(){
-		for(int i=0; i<CHAR_NUM; ++i) {
+		for(int i = 0; i < CHAR_NUM; ++i) {
 			next[node_count][i] = -1;
 		}
 		count[node_count] = 0;
@@ -16,7 +16,7 @@ struct ACAuto {
 	}
 	void insert(char str[], int m = 1) {
 		int u = root;
-		for (int si=0; str[si]!='\0'; ++si) {
+		for (int si=0; str[si] != '\0'; ++si) {
 			if (next[u][str[i]] == -1) {
 				next[u][str[i]] = new_node();
 			}
@@ -26,7 +26,7 @@ struct ACAuto {
 	}
 	void build() {
 		queue<int> Q;
-		for(int i=0; i<CHAR_NUM; ++i) {
+		for(int i = 0; i < CHAR_NUM; ++i) {
 			if (next[root][i] == -1) {
 				next[root][i] = root;
 			} else {
@@ -36,7 +36,7 @@ struct ACAuto {
 		}
 		for (; !Q.empty(); ) {
 			int u = Q.front(); Q.pop();
-			for(int i=0; i<CHAR_NUM; ++i) {
+			for(int i = 0; i < CHAR_NUM; ++i) {
 				if (next[u][i] == -1) {
 					next[u][i] = next[fail[u]][i];
 				} else{
@@ -49,10 +49,11 @@ struct ACAuto {
 	int query(char str[]) {
 		int u = root;
 		int ans = 0;
-		for (int si=0; str[si]!='\0'; ++si) {
+		for (int si = 0; str[si] != '\0'; ++si) {
 			u = next[u][str[si]];
-			for (int v=u; v!=root; v=fail[v]){
-				ans += count[v]; count[v]=0;
+			for (int v = u; v != root; v = fail[v]){
+				ans += count[v];
+				count[v]=0;
 			}
 		}
 		return ans;

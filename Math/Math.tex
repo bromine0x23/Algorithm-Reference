@@ -20,12 +20,6 @@
 \CPPSource{ChineseRem}
 \RubySource{ChineseRem}
 
-\subsection{大数运算}
-\CPPSource{Bignum}
-
-\subsection{矩阵运算}
-\CPPSource{Matrix}
-
 \subsection{第二类Stirling数}
 $n$个元素的集定义$k$个等价类的方法数目，记为$S(n,k)$
 \begin{displaymath}
@@ -35,7 +29,7 @@ S(n, k) = \frac{1}{m!}\sum_{k=0}^{m-1}{(-1)^k C_m^k (m-k)^n}
 \begin{displaymath}
 S(n, k) = 
 \begin{cases}
-S(n-1, k-1) + kS(n-1, k) & 2\leqslant k < n\\
+S(n-1, k-1) + k\cdot S(n-1, k) & 2\leqslant k < n\\
 1 & n=k \vee k=1 \\
 0 & \text{else}
 \end{cases}
@@ -61,3 +55,9 @@ C_{n+1} = & \frac{2(2n+1)}{n+2} C_n
 
 \subsection{卢卡斯(Lucas)定理}
 \CPPSource{Lucas}
+
+\subsection{大数运算}
+\CPPSource{bignum}
+
+\subsection{矩阵运算}
+\CPPSource{matrix}

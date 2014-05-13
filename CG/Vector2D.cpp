@@ -63,5 +63,5 @@ Vector2D outer_norm(Vector2D v1, Vector2D v2) {
 	return sqrt(outer_norm2(v1, v2));
 }
 Point2D foot(Point2D p, Point2D orig, Vector2D dire) {
-	return orig - dire.norm2() * (1.0 / inner(p-orig, dire)) * dire;
+	return orig - dire.norm2() * (1.0 / inner(p - orig, dire)) * dire;
 }

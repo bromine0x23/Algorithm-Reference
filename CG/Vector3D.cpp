@@ -6,7 +6,7 @@ struct Vector2D {
 	Vector3D(Vector3D const & v) : x(v.x), y(v.y) { }
 	// $\NormSquare{P}$
 	ValType norm2() const {
-		return x*x + y*y + z*z;
+		return x * x + y * y + z * z;
 	}
 	// $\Norm{P}$
 	ValType norm() const {
@@ -40,7 +40,7 @@ Vector3D operator/(Vector3D const & p, ValType const & k) {
 }
 // $|P_1 P_2|$
 ValType dist(Point3D const & p1, Point3D const & p2) {
-	return (p1-p2).norm();
+	return (p1 - p2).norm();
 }
 // $\InnerV{V_1}{V_2}$
 ValType inner(Vector3D const & v1, Vector3D const & v2) {
@@ -63,7 +63,7 @@ Vector2D outer_norm(Vector3D const & v1, Vector3D const & v2) {
 	return sqrt(outer_norm2(v1, v2));
 }
 Point3D foot(Point3D p, Point3D orig, Vector3D dire) {
-	return orig - dire.norm2() * (1.0 / inner(p-orig, dire)) * dire;
+	return orig - dire.norm2() * (1.0 / inner(p - orig, dire)) * dire;
 }
 Point3D rotate(Point3D p, Point3D orig, Vector3D dire, ValType ang) {
 	Point3D root = foot(p, orig, dire);

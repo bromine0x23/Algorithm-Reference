@@ -6,8 +6,8 @@ struct MatrixGraph {
 	int build(int vn) {
 		V = vn;
 		E = 0;
-		for (int i=0; i<V; ++i) {
-			for (int j=0; j<V; ++j) {
+		for (int i = 0; i < V; ++i) {
+			for (int j=0; j < V; ++j) {
 				weight[i][j] = INF;
 			}
 		}
@@ -27,8 +27,9 @@ struct ListGraph {
 	Edge edges[MAX_EDGE];
 	int next[MAX_EDGE];
 	int build(int vn) {
-		E = V = 0;
-		for (int vi=0; vi<V; ++vi) {
+		V = vn;
+		E = 0;
+		for (int vi = 0; vi < V; ++vi) {
 			head[vi] = -1;
 		}
 	}
@@ -53,7 +54,6 @@ struct ListGraph {
 // bipartite graph
 struct BiGraph {
 	int x_num, y_num;
-	vector< vector<bool> > edge;
-	BiGraph(int xn, int yn)
-		: x_num(xn), y_num(yn), edge(x_num, vector<bool>(y_num, false)) { }
+	std::vector< std::vector<bool> > edge;
+	BiGraph(int xn, int yn) : x_num(xn), y_num(yn), edge(x_num, std::vector<bool>(y_num, false)) { }
 };

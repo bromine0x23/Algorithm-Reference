@@ -5,11 +5,11 @@ double RotatingCalipers(vector<Point> & points) {
 
 	double ans = 0;
 	int q = 1;
-	for (int p=0; p < n; ++p) {
-		while (cross(C[p], C[p+1], C[q+1]) > cross(C[p], C[p+1], C[q])) {
+	for (int p = 0; p < n; ++p) {
+		while (cross(C[p], C[p + 1], C[q + 1]) > cross(C[p], C[p + 1], C[q])) {
 			q = (q + 1) % n;
 		}
-		max_by_ref(ans, max_by_val(dist(C[p], C[q]), dist(C[p+1], C[q+1])));
+		update_maximum(ans, update_maximum(dist(C[p], C[q]), dist(C[p + 1], C[q + 1])));
 	}
 	return ans;
 }

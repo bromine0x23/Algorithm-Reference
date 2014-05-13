@@ -10,6 +10,6 @@ void zero_one_knapsack() {
 }
 void zero_one_knapsack_one(int dp[], int w, int v) {
 	for (int j=W; j>=w; --j) {
-		max_r(dp[j], dp[j-w]+v);
+		update_maximum(dp[j], dp[j-w]+v);
 	}
 }

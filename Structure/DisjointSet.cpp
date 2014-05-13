@@ -3,11 +3,13 @@ struct DisjointSet {
 	vector<int> p; // parents
 	vector<int> r; // rank
 	DisjointSet(int s) : parent(s), rank(s, 0) {
-		for (int si=0; si<s; ++si) { p[i] = i; }
+		for (int si = 0; si < s; ++si) {
+			p[i] = i;
+		}
 	}
 	int find(int x) {
 		// Optimize: compress path
-		return x!=p[x] ? p[x]=find(p[x]) : x;
+		return x != p[x] ? p[x] = find(p[x]) : x;
 	}
 	void link(int x, int y) {
 		// Optimize: link by rank
