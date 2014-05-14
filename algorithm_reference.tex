@@ -1,9 +1,10 @@
 \documentclass[fancyhdr,hyperref,a4paper,UTF8,leqno]{ctexbook}
-\usepackage[bookmarksopen,pdfstartview=FitH,colorlinks=false]{hyperref}
+\usepackage[bookmarksopen,pdfstartview=FitH,colorlinks=true]{hyperref}
 \usepackage[hmargin={2cm, 1cm},vmargin=2cm]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{cases}
+\usepackage[toc]{multitoc}
 \setmonofont{DejaVu Sans Mono}
 
 \pagestyle{fancy}
@@ -12,19 +13,16 @@
 \fancyhead[EL,OR]{\rightmark}
 \fancyfoot[C]{\thepage}
 
-\input{MathEnvironment}
-\input{CodeEnvironment}
+\input{code_env}
+\input{math_env}
 
 \setcounter{secnumdepth}{0}
 \setcounter{tocdepth}{3}
 \hypersetup{pdfauthor=bromine0x23@gmail.com}
 
 \begin{document}
-
-\title{Algorithm Reference}
-\author{bromine0x23@gmail.com}
-\maketitle
-\tableofcontents
+\include{cover}
+\include{contents}
 \include{Base/Base}
 \include{Math/Math}
 \include{CG/CG}

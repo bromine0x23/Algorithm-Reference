@@ -1,5 +1,5 @@
 SHELL = /bin/sh
-TARGET = ACM
+TARGET = algorithm_reference
 EXCLUDE_DIRS = 
 SECTIONS = $(basename $(patsubst ./%, %, $(shell find . -maxdepth 1 -type d)))
 CLEAN_SUFFIXS =\

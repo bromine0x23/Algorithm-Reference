@@ -2,25 +2,23 @@
 
 \section{数学相关}
 
-\subsection{素数筛法}
+\subsection{数论算法}
+\subsubsection{素数筛法}
 \CPPSource{prime}
-
-\subsection{欧拉函数}
+\subsubsection{欧拉函数}
 欧拉函数$\phi(n)$的值为不大于n的正整数中与n互质的数的个数
 \CPPSource{Euler}
-
-\subsection{欧几里德算法}
+\subsubsection{欧几里德算法}
 \CPPSource{Euclid}
 \RubySource{Euclid}
-
-\subsection{快速幂}
-\CPPSource{fast_pow}
-
-\subsection{中国剩余定理}
+\subsubsection{中国剩余定理}
 \CPPSource{ChineseRem}
 \RubySource{ChineseRem}
+\subsubsection{快速幂}
+\CPPSource{fast_pow}
 
-\subsection{第二类Stirling数}
+\subsection{组合数学}
+\subsubsection{第二类Stirling数}
 $n$个元素的集定义$k$个等价类的方法数目，记为$S(n,k)$
 \begin{displaymath}
 S(n, k) = \frac{1}{m!}\sum_{k=0}^{m-1}{(-1)^k C_m^k (m-k)^n}
@@ -37,7 +35,7 @@ S(n-1, k-1) + k\cdot S(n-1, k) & 2\leqslant k < n\\
 $$ $$
 \CPPSource{Stirling2}
 
-\subsection{Catalan数}
+\subsubsection{Catalan数}
 $n$个节点组成的不同构二叉树个数
 \begin{align*}
 C_0     = & 0 \\
@@ -50,10 +48,10 @@ C_{n+1} = & \frac{2(2n+1)}{n+2} C_n
 \end{align*}
 \CPPSource{Catalan}
 
-\subsection{康托(Cantor)展开}
+\subsubsection{康托(Cantor)展开}
 \CPPSource{Cantor}
 
-\subsection{卢卡斯(Lucas)定理}
+\subsubsection{卢卡斯(Lucas)定理}
 \CPPSource{Lucas}
 
 \subsection{大数运算}
