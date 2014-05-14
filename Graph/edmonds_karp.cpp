@@ -2,15 +2,7 @@
 Graph graph;
 std::vector< std::vector<int> > flow;
 std::vector<int> prev;
-int EdmondsKarp(int source, int sink) {
-	int max_flow = 0;
-	std::vector< std::vector<int> > flow(graph.V, std::vector<int>(graph.V, 0));
-	for (std::vector<int> prev; EdmondsKarp_BFS(source, sink); ) {
-		max_flow += flow_update(sink);
-	}
-	return max_flow;
-}
-bool EdmondsKarp_BFS(int source, int sink) {
+bool edmonds_karp_bfs(int source, int sink) {
 	prev = std::vector<int>(graph.V, -1);
 	std::queue<int> Q;
 	for (Q.push(source); !Q.empty(); ) {
@@ -26,4 +18,12 @@ bool EdmondsKarp_BFS(int source, int sink) {
 		}
 	}
 	return prev[sink] != -1;
+}
+int edmonds_karp(int source, int sink) {
+	int max_flow = 0;
+	std::vector< std::vector<int> > flow(graph.V, std::vector<int>(graph.V, 0));
+	for (std::vector<int> prev; edmonds_karp_bfs(source, sink); ) {
+		max_flow += flow_update(sink);
+	}
+	return max_flow;
 }

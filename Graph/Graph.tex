@@ -2,7 +2,7 @@
 
 \section{图}
 \subsection{结构体定义}
-\CPPSource{Graph}
+\CPPSource{graph}
 
 \subsection{最短路}
 \subsubsection{SPFA算法}
@@ -19,16 +19,29 @@
 \CPPSource{Prim}
 
 \subsection{网络流}
+\begin{description}
+\item[源点／汇点] $s$，$t$
+\item[容量] $\forall (u, v)  \in V \times V \;.\; c(u, v) \geqslant 0$, 且$\forall (u, v) \not\in E\;.\; c(u,v) = 0$
+\item[流] $f:V \times V \rightarrow \mathbb{R} $，满足：
+\begin{description}
+\item[容量限制] $\forall (u, v) \in V \times V \;.\; f(u, v) \leqslant c(u, v) $
+\item[斜对称] $\forall (u, v) \in V \times V \;.\; f(u, v) = -f(v, u)$
+\item[流守恒] $\forall u \in V-\{s, t\} \;.\;\sum_{w \in V} f(u, w) = 0$
+\end{description}
+\item[剩余容量] $c_f(u,v) = c(u,v) - f(u,v)$
+\item[剩余网络] 图$G_f(V, E_f)$，其中$E_f = \{(u,v) \in V \times V : c_f(u, v) > 0\}$
+\item[增广路] 路径$(u_1, u_2, \dots, u_k)$，满足$u_1 = s$、$u_k = t$、$c_f(u_i, u_{i+1}) > 0$
+\end{description}
 \subsubsection{更新流}
-\CPPSource{update}
+\CPPSource{flow_update}
 \subsubsection{Ford-Fulkerson算法}
-\CPPSource{FordFulkerson}
+\CPPSource{ford_fulkerson}
 \subsubsection{Edmonds Karp算法}
-\CPPSource{EdmondsKarp}
-\subsubsection{Dinic算法}
-\CPPSource{Dinic}
+\CPPSource{edmonds_karp}
 \subsubsection{SAP算法}
 \CPPSource{SAP}
+\subsubsection{Dinic算法(基于层次图)}
+\CPPSource{dinic}
 
 \subsection{二分图}
 \subsubsection{Hungarian算法(匈牙利算法)}

@@ -19,7 +19,7 @@ std::vector<int> Manacher(std::string const & S) {
 		F[i] = 1;
 		if (farthest > i) {
 			F[i] = F[2 * farthest_id-i];
-			min_by_ref(F[i], farthest - i);
+			update_minimum(F[i], farthest - i);
 		}
 		for (; P[i - F[i]]==P[i + F[i]];) {
 			++F[i];

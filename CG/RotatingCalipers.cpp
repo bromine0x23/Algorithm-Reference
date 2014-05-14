@@ -9,7 +9,7 @@ double RotatingCalipers(vector<Point> & points) {
 		while (cross(C[p], C[p + 1], C[q + 1]) > cross(C[p], C[p + 1], C[q])) {
 			q = (q + 1) % n;
 		}
-		update_maximum(ans, update_maximum(dist(C[p], C[q]), dist(C[p + 1], C[q + 1])));
+		update_maximum(ans, maximum(dist(C[p], C[q]), dist(C[p + 1], C[q + 1])));
 	}
 	return ans;
 }
