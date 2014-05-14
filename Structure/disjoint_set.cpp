@@ -1,7 +1,7 @@
+// $O(m\alpha(n))$, $m$ is number of operations, $n$ is size of set
 struct DisjointSet {
-	// $O(m\alpha(n))$, $m$ is number of operations, $n$ is size of set
-	vector<int> p; // parents
-	vector<int> r; // rank
+	std::vector<int> p; // parents
+	std::vector<int> r; // rank
 	DisjointSet(int s) : parent(s), rank(s, 0) {
 		for (int si = 0; si < s; ++si) {
 			p[i] = i;

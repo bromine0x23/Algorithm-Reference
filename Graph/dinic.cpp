@@ -1,6 +1,6 @@
 // $O(V^2 E)$
 // $\operatorname{dist}(v)$ is the length of the shortest path from $s$ to $v$ in $G_f$
-// level graph of $G_f$ is $G_L=(V, E_L, c_f|_{E_L})$, where $E_L=\{(u,v)\in E_f : \operatorname{dist}(v) = \operatorname{dist}(u) + 1\}$£¬where $dist$
+// level graph of $G_f$ is $G_L=(V, E_L, c_f|_{E_L})$, where $E_L=\{(u,v)\in E_f : \operatorname{dist}(v) = \operatorname{dist}(u) + 1\}$
 // A blocking flow is an $s-t$ flow $f'$ such that the graph $G' = (V, E_L', s, t)$ with $E_L' = \{(u,v) : f'(u,v) < c_f|_{E_L}(u,v)\}$ contains no $s-t$ path.
 MatrixGraph graph; // $G = (V, E, c)$
 int source, sink;
@@ -9,7 +9,7 @@ int level[MAX_VERTEX]; // $\operatorname{dist}(v)$
 // build $G_L$, using SPFA algorithm
 bool dinic_build() {
 	std::queue<int> queue;
-	for (int i = 0; i < graph.V; ++i) {
+	for (int i = 0; i < graph.vertex_num; ++i) {
 		level[i] = 0;
 	}
 	queue.push(s);
@@ -17,7 +17,7 @@ bool dinic_build() {
 	for (; !queue.empty(); ) {
 		int u = queue.front();
 		queue.pop();
-		for (int v = 0; v < graph.V; ++v) {
+		for (int v = 0; v < graph.vertex_num; ++v) {
 			if (flow[u][v] > 0 && level[v] == 0) {
 				level[v] = level[u] + 1;
 				queue.push(v);
@@ -30,7 +30,7 @@ bool dinic_build() {
 int dinic_find(int u, int cap) {
 	if (u != sink) {
 		int left_cap = cap;
-		for (int v = 0; v < graph.V && left_cap != 0; ++v) {
+		for (int v = 0; v < graph.vertex_num && left_cap != 0; ++v) {
 			if (flow[u][v] > 0 && level[v] == level[u] + 1) {
 				int f = dinic_find(v, minimum(left_cap, flow[u][v]));
 				flow[u][v] -= f;
@@ -43,16 +43,16 @@ int dinic_find(int u, int cap) {
 	return cap;
 }
 int dinic() {
-	int ans = 0;
-	for (int i = 0; i < graph.V; ++i) {
-		for (int j = 0; j < graph.V; ++j) {
+	int max_flow = 0;
+	for (int i = 0; i < graph.vertex_num; ++i) {
+		for (int j = 0; j < graph.vertex_num; ++j) {
 			flow[i][j] = graph.edge(u, v);
 		}
 	}
     for (; dinic_build(); ) {
-		for (int flow; (flow = dinic_find(source, INF)) != 0; ) {
-            ans += flow;
+		for (int flow; flow = dinic_find(source, INF), flow != 0; ) {
+            max_flow += flow;
 		}
 	}
-	return ans;
+	return max_flow;
 }

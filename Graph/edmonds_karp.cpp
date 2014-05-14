@@ -1,19 +1,23 @@
 // $O(VE^2)$
-Graph graph;
-std::vector< std::vector<int> > flow;
-std::vector<int> prev;
-bool edmonds_karp_bfs(int source, int sink) {
-	prev = std::vector<int>(graph.V, -1);
-	std::queue<int> Q;
-	for (Q.push(source); !Q.empty(); ) {
-		int u = Q.front();
-		Q.pop();
+ListGraph graph;
+int flow[MAX_VERTEX][MAX_VERTEX];
+int prev[MAX_VERTEX];
+// find augmenting path by BFS
+bool edmonds_karp_find(int source, int sink) {
+	for (int i = 0; i < graph.vertex_num; ++i) {
+		prev[i] = -1;
+	}
+	std::queue<int> queue;
+	queue.push(source);
+	for (; !queue.empty(); ) {
+		int u = queue.front();
+		queue.pop();
 		for (int e = graph.head[u]; e != -1; e = graph.next[e]) {
 			int v = graph.edges[e].v;
 			int w = graph.edges[e].w;
 			if (prev[v] == -1 && w > flow[u][v]) {
 				prev[v] = u;
-				Q.push(v);
+				queue.push(v);
 			}
 		}
 	}
@@ -21,8 +25,12 @@ bool edmonds_karp_bfs(int source, int sink) {
 }
 int edmonds_karp(int source, int sink) {
 	int max_flow = 0;
-	std::vector< std::vector<int> > flow(graph.V, std::vector<int>(graph.V, 0));
-	for (std::vector<int> prev; edmonds_karp_bfs(source, sink); ) {
+	for (int i = 0; i < graph.vertex_num; ++i) {
+		for (int j = 0; j < graph.vertex_num; ++j) {
+			flow[i][j] = 0;
+		}
+	}
+	for (; edmonds_karp_find(source, sink); ) {
 		max_flow += flow_update(sink);
 	}
 	return max_flow;

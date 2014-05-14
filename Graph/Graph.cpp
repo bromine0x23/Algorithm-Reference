@@ -1,7 +1,7 @@
 // graph use adjacency matrix
 struct MatrixGraph {
-	int V; // vertex amount
-	int E; // edge amount
+	int vertex_num; // vertex amount
+	int edge_num; // edge amount
 	int weight[MAX_VERTIX][MAX_VERTIX];
 	int build(int vn) {
 		V = vn;
@@ -21,8 +21,8 @@ struct Edge {
 	int u, v, w;
 };
 struct ListGraph {
-	int V; // vertex amount
-	int E; // edge amount
+	int vertex_num; // vertex amount
+	int edge_num; // edge amount
 	int head[MAX_VERTEX];
 	Edge edges[MAX_EDGE];
 	int next[MAX_EDGE];
