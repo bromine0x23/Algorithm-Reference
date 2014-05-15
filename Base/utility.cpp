@@ -26,3 +26,10 @@ void swap(value_type & lhs, value_type & rhs) {
 	lhs = rhs;
 	rhs = tmp;
 }
+int random() {
+	static int seed = 0;
+	static long long const a = 1103515245;
+	static long long const c = 12345;
+	seed = int(a * seed + c) & 0x0FFFFFFF;
+	return seed;
+}
