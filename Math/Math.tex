@@ -3,54 +3,143 @@
 \section{数学相关}
 
 \subsection{数论算法}
-\subsubsection{素数筛法}
-\CPPSource{prime}
-\subsubsection{欧拉函数}
-欧拉函数$\phi(n)$的值为不大于n的正整数中与n互质的数的个数
-\CPPSource{Euler}
 \subsubsection{欧几里德(Euclid)算法}
-\CPPSource{Euclid}
-\RubySource{Euclid}
+\CPPSource{euclid}
+\RubySource{euclid}
+\subsubsection{快速幂}
+\CPPSource{fast_pow}
+\subsubsection{素数筛法}
+\CPPSource{prime_sieve}
+\subsubsection{欧拉函数}
+欧拉函数$\phi(n)$的值为不大于n的正整数中与n互质的数的个数\\
+若
+\begin{displaymath}
+n = p_1^{k_1} p_2^{k_2} \cdots p_r^{k_r}
+\end{displaymath}
+则
+\begin{displaymath}
+\phi(n) = \prod_{i=1}^{r} p_{i}^{k_{i}-1}(p_{i}-1) = n\prod_{p|n}\left(1-\frac{1}{p}\right)
+\end{displaymath}\\
+\begin{displaymath}
+\;\phi(n^{m}) = n^{m-1}\phi(n) 
+\end{displaymath}
+\CPPSource{Euler}
+\subsubsection{欧拉定理}
+若$n$、$a$为正整数，且$n$、$a$互质（即$\gcd(n,a)=1$），则
+\begin{displaymath}
+a^{\phi(n)} \equiv 1 \pmod n
+\end{displaymath}
+\subsubsection{费马小定理}
+如果$p$是素数，则
+\begin{displaymath}
+a^{p} \equiv a \pmod{p}
+\end{displaymath}
+或在$a$与$p$互质时
+\begin{displaymath}
+a^{p-1} \equiv  1 \pmod{p}
+\end{displaymath}
 \subsubsection{中国剩余定理}
 \CPPSource{ChineseRem}
 \RubySource{ChineseRem}
-\subsubsection{快速幂}
-\CPPSource{fast_pow}
 \subsubsection{Miller Rabin算法(素性测试)}
 \CPPSource{miller_rabin}
 \subsubsection{Pollard Brent算法(因数分解)}
 \CPPSource{pollard_brent}
 
 \subsection{组合数学}
-\subsubsection{第二类Stirling数}
-$n$个元素的集定义$k$个等价类的方法数目，记为$S(n,k)$
+\subsubsection{组合数（二项式系数）}
+从$n$个元素中选出$k$个元素的方法数，记为$C_{n}^{k}$或$C(n, k)$
 \begin{displaymath}
-S(n, k) = \frac{1}{m!}\sum_{k=0}^{m-1}{(-1)^k C_m^k (m-k)^n}
+C_n^k = \frac{n!}{k!\;(n-k)!} \quad
 \end{displaymath}
+\begin{displaymath}
+C_{n}^{k} = 
+\begin{cases}
+C_{n-1}^{k-1} + C_{n-1}^{k} & 1 \leqslant k \leqslant n\\
+1 & k=0
+\end{cases}
+\end{displaymath}
+$k$元子集包含第$n$个元素时，方法数为$ C_{n-1}^{k-1}$；不包含时，方法数为$C_{n-1}^{k}$\\
+\CPPSource{combine}
 
+\subsubsection{Fibonacci数}
+\begin{displaymath}
+F_{n} = \frac{1}{\sqrt{5}}\left\{\left(\frac{1+\sqrt{5}}{2}\right)^n - \left(\frac{1-\sqrt{5}}{2}\right)^n\right\}
+\end{displaymath}
+\begin{displaymath}
+F_{n} = 
+\begin{cases}
+F_{n-1}+ F_{n-2} & n \geqslant 2\\
+1 & n=1\\
+0 & n=0
+\end{cases}
+\end{displaymath}
+\begin{displaymath}
+\begin{pmatrix} F_{n+2} & F_{n+1} \\ F_{n+1} & F_{n} \end{pmatrix}
+=
+\begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}^{n + 1}
+\end{displaymath}
+\CPPSource{fibonacci}
+
+\subsubsection{第一类Stirling数}
+有正负，其绝对值是$n$个元素的项目分作$k$个循环排列($n$个人分成$k$组，组内按特定顺序围圈)的方法数，记为$s(n,k)$
+\begin{displaymath}
+x(x-1)(x-2)\cdots(x-n+1) = \sum_{k=1}^{n} s(n, k) x^{k}
+\end{displaymath}
+\begin{displaymath}
+s(n, k) = 
+\begin{cases}
+s(n-1, k-1) + (n-1)\;s(n-1, k) & 2 \leqslant k \leqslant n\\
+1 & n=k=1
+\end{cases}
+\end{displaymath}
+第$n$个元素单独够成一个循环排列，前$n-1$个元素构成$k-1$个循环排列，方法数为$s(n-1, k-1)$；前$n-1$个元素构成$k$个循环排列，第$n$个元素某一元素的左边，方法数为$(n-1)\;s(n-1, k)$\\
+\CPPSource{stirling1}
+
+\subsubsection{第二类Stirling数}
+$n$个元素的集定义$k$个等价类(亦即$n$个人分成$k$组)的方法数，记为$S(n,k)$
+\begin{displaymath}
+S(n, k) = \frac{1}{k!}\sum_{j=1}^{k} (-1)^{k-j} C_{k}^{j} j^{n}
+\end{displaymath}
 \begin{displaymath}
 S(n, k) = 
 \begin{cases}
-S(n-1, k-1) + k\cdot S(n-1, k) & 2\leqslant k < n\\
-1 & n=k \vee k=1 \\
-0 & \text{else}
+S(n-1, k-1) + k\;S(n-1, k) & 2 \leqslant k \leqslant n\\
+1 & n=k=1
 \end{cases}
 \end{displaymath}
-$$ $$
-\CPPSource{Stirling2}
+第$n$个元素单独够成一个等价类，前$n-1$个元素构成$k-1$个等价类，方法数为$S(n-1, k-1)$；前$n-1$个元素构成$k$个等价类，第$n$个元素放入其中一个，方法数为$k\;S(n-1, k)$\\
+\CPPSource{stirling2}
 
 \subsubsection{Catalan数}
-$n$个节点组成的不同构二叉树个数
-\begin{align*}
-C_0     = & 0 \\
-C_{n+1} = & \sum_{i=0}^n C_i C_{n-i}
-\end{align*}
-或
-\begin{align*}
-C_0     = & 0 \\
-C_{n+1} = & \frac{2(2n+1)}{n+2} C_n
-\end{align*}
-\CPPSource{Catalan}
+$n$个节点组成的不同构二叉树个数\\
+$2n+1$个节点组成的不同构满二叉树数
+\begin{displaymath}
+C_{n} = \frac{1}{n+1} C_{2n}^{n} = \frac{(2n)!}{(n+1)!\;n!}
+\end{displaymath}
+\begin{displaymath}
+C_{n} = C_{2n}^{n} - C_{2n}^{n+1} \quad\mbox{for } n\geqslant 1
+\end{displaymath}
+\begin{displaymath}
+C_{0} = 1 \quad\mbox{and}\quad C_{n+1} = \sum_{i=0}^{n} C_{i}\;C_{n-i} \quad\mbox{for } n\geqslant 0
+\end{displaymath}
+\begin{displaymath}
+C_{0} = 1 \quad\mbox{and}\quad C_{n} = \frac{2(2n-1)}{n+1} C_{n-1} \quad\mbox{for } n>0
+\end{displaymath}\\
+\CPPSource{catalan}
+
+\subsubsection{Bell数}
+基数为$n$的集合的划分数
+\begin{displaymath}
+B_{n+1} = \sum_{k=0}^{n} C_{n}^{k}\;B_{k}
+\end{displaymath}
+\begin{displaymath}
+B_{p+n} \equiv B_{n} + B_{n+1} \pmod p
+\end{displaymath}
+\begin{displaymath}
+B_{n} = \sum_{k=1}^{n} S(n, k)
+\end{displaymath}\\
+\CPPSource{bell}
 
 \subsubsection{康托(Cantor)展开}
 \CPPSource{Cantor}
