@@ -1,9 +1,11 @@
-ListGraph graph; // actually a tree or forest
+// $O(V)$
+ListGraph tree;
 std::vector<Edge> queries;
 void tarjan_main(int u){
 	ancestor[u] = u;
-	for (int e = graph.head[u]; e != -1; e = graph.next[e] ) {
-		tarjan_main(graph.edges[e].v);
+	for (int e = tree.head[u]; e != -1; e = tree.next[e]) {
+		int v = tree.edges[e].v;
+		tarjan_main(v);
 		set.link(u, v);
 		ancestor[set.find(u)] = u;
 	}
@@ -15,9 +17,9 @@ void tarjan_main(int u){
 	}
 }
 void tarjan() {
-	set = DisjointSet(graph.vertex_num);
-	for (int v = 0; v < graph.vertex_num; ++v) {
-		if (graph.next[e][graph.head[v]] == -1) {
+	set = DisjointSet(tree.vertex_num);
+	for (int v = 0; v < tree.vertex_num; ++v) {
+		if (tree.next[e][tree.head[v]] == -1) {
 			// $v$ is a root of a tree
 			tarjan_main(v);
 		}

@@ -1,16 +1,16 @@
 \SetPath{Math}
 
-\section{数学相关}
+\chapter{数学相关}
 
-\subsection{数论算法}
-\subsubsection{欧几里德(Euclid)算法}
+\section{数论算法}
+\subsection{欧几里德(Euclid)算法}
 \CPPSource{euclid}
 \RubySource{euclid}
-\subsubsection{快速幂}
+\subsection{快速幂}
 \CPPSource{fast_pow}
-\subsubsection{素数筛法}
+\subsection{素数筛法}
 \CPPSource{prime_sieve}
-\subsubsection{欧拉函数}
+\subsection{欧拉函数}
 欧拉函数$\phi(n)$的值为不大于n的正整数中与n互质的数的个数\\
 若
 \begin{displaymath}
@@ -24,12 +24,12 @@ n = p_1^{k_1} p_2^{k_2} \cdots p_r^{k_r}
 \;\phi(n^{m}) = n^{m-1}\phi(n) 
 \end{displaymath}
 \CPPSource{Euler}
-\subsubsection{欧拉定理}
+\subsection{欧拉定理}
 若$n$、$a$为正整数，且$n$、$a$互质（即$\gcd(n,a)=1$），则
 \begin{displaymath}
 a^{\phi(n)} \equiv 1 \pmod n
 \end{displaymath}
-\subsubsection{费马小定理}
+\subsection{费马小定理}
 如果$p$是素数，则
 \begin{displaymath}
 a^{p} \equiv a \pmod{p}
@@ -38,16 +38,16 @@ a^{p} \equiv a \pmod{p}
 \begin{displaymath}
 a^{p-1} \equiv  1 \pmod{p}
 \end{displaymath}
-\subsubsection{中国剩余定理}
+\subsection{中国剩余定理}
 \CPPSource{ChineseRem}
 \RubySource{ChineseRem}
-\subsubsection{Miller Rabin算法(素性测试)}
+\subsection{Miller Rabin算法(素性测试)}
 \CPPSource{miller_rabin}
-\subsubsection{Pollard Brent算法(因数分解)}
+\subsection{Pollard Brent算法(因数分解)}
 \CPPSource{pollard_brent}
 
-\subsection{组合数学}
-\subsubsection{组合数（二项式系数）}
+\section{组合数学}
+\subsection{组合数（二项式系数）}
 从$n$个元素中选出$k$个元素的方法数，记为$C_{n}^{k}$或$C(n, k)$
 \begin{displaymath}
 C_n^k = \frac{n!}{k!\;(n-k)!} \quad
@@ -62,7 +62,7 @@ C_{n-1}^{k-1} + C_{n-1}^{k} & 1 \leqslant k \leqslant n\\
 $k$元子集包含第$n$个元素时，方法数为$ C_{n-1}^{k-1}$；不包含时，方法数为$C_{n-1}^{k}$\\
 \CPPSource{combine}
 
-\subsubsection{Fibonacci数}
+\subsection{Fibonacci数}
 \begin{displaymath}
 F_{n} = \frac{1}{\sqrt{5}}\left\{\left(\frac{1+\sqrt{5}}{2}\right)^n - \left(\frac{1-\sqrt{5}}{2}\right)^n\right\}
 \end{displaymath}
@@ -81,22 +81,22 @@ F_{n-1}+ F_{n-2} & n \geqslant 2\\
 \end{displaymath}
 \CPPSource{fibonacci}
 
-\subsubsection{第一类Stirling数}
+\subsection{第一类Stirling数}
 有正负，其绝对值是$n$个元素的项目分作$k$个循环排列($n$个人分成$k$组，组内按特定顺序围圈)的方法数，记为$s(n,k)$
 \begin{displaymath}
 x(x-1)(x-2)\cdots(x-n+1) = \sum_{k=1}^{n} s(n, k) x^{k}
 \end{displaymath}
 \begin{displaymath}
-s(n, k) = 
+|s(n, k)| = 
 \begin{cases}
-s(n-1, k-1) + (n-1)\;s(n-1, k) & 2 \leqslant k \leqslant n\\
+|s(n-1, k-1)| + (n-1)\;|s(n-1, k)| & 2 \leqslant k \leqslant n\\
 1 & n=k=1
 \end{cases}
 \end{displaymath}
 第$n$个元素单独够成一个循环排列，前$n-1$个元素构成$k-1$个循环排列，方法数为$s(n-1, k-1)$；前$n-1$个元素构成$k$个循环排列，第$n$个元素某一元素的左边，方法数为$(n-1)\;s(n-1, k)$\\
 \CPPSource{stirling1}
 
-\subsubsection{第二类Stirling数}
+\subsection{第二类Stirling数}
 $n$个元素的集定义$k$个等价类(亦即$n$个人分成$k$组)的方法数，记为$S(n,k)$
 \begin{displaymath}
 S(n, k) = \frac{1}{k!}\sum_{j=1}^{k} (-1)^{k-j} C_{k}^{j} j^{n}
@@ -111,7 +111,7 @@ S(n-1, k-1) + k\;S(n-1, k) & 2 \leqslant k \leqslant n\\
 第$n$个元素单独够成一个等价类，前$n-1$个元素构成$k-1$个等价类，方法数为$S(n-1, k-1)$；前$n-1$个元素构成$k$个等价类，第$n$个元素放入其中一个，方法数为$k\;S(n-1, k)$\\
 \CPPSource{stirling2}
 
-\subsubsection{Catalan数}
+\subsection{Catalan数}
 $n$个节点组成的不同构二叉树个数\\
 $2n+1$个节点组成的不同构满二叉树数
 \begin{displaymath}
@@ -128,7 +128,7 @@ C_{0} = 1 \quad\mbox{and}\quad C_{n} = \frac{2(2n-1)}{n+1} C_{n-1} \quad\mbox{fo
 \end{displaymath}\\
 \CPPSource{catalan}
 
-\subsubsection{Bell数}
+\subsection{Bell数}
 基数为$n$的集合的划分数
 \begin{displaymath}
 B_{n+1} = \sum_{k=0}^{n} C_{n}^{k}\;B_{k}
@@ -141,14 +141,14 @@ B_{n} = \sum_{k=1}^{n} S(n, k)
 \end{displaymath}\\
 \CPPSource{bell}
 
-\subsubsection{康托(Cantor)展开}
+\subsection{康托(Cantor)展开}
 \CPPSource{Cantor}
 
-\subsubsection{卢卡斯(Lucas)定理}
+\subsection{卢卡斯(Lucas)定理}
 \CPPSource{Lucas}
 
-\subsection{大数运算}
+\section{大数运算}
 \CPPSource{bignum}
 
-\subsection{矩阵运算}
+\section{矩阵运算}
 \CPPSource{matrix}

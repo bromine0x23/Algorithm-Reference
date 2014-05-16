@@ -1,4 +1,4 @@
-// $O(n\log{n})$
+// $O(n \log n)$
 void quicksort(int datas[], int size) {
 	for (int i, j; size > 0; size = i) {
 		int pivot = datas[0];

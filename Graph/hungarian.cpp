@@ -6,7 +6,7 @@ bool hungarian_dfs(int x) {
 	for(int y = 0; y < graph.y_num; ++y) {
 		if (graph.edge[x][y] && !visited[y]) {
 			visited[y] = true;
-			if (match_y[y] == -1 || Hungarian_DFS(match_y[y])) {
+			if (match_y[y] == -1 || hungarian_dfs(match_y[y])) {
 				match_x[x] = y;
 				match_y[y] = x;
 				return true;

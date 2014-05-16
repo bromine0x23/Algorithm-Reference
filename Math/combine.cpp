@@ -1,4 +1,4 @@
-// $O(n^2)$, calculate $C_i^j$ where $0 \leqslant j \leqslant i\leqslant n$
+// $O(n^2)$, calculate $C_{i}^{j}$ where $0 \leqslant j \leqslant i\leqslant n$
 int C[MAX_N][MAX_K];
 void combine(int n) {
 	memset(C, 0, sizeof(C)); // not necessary

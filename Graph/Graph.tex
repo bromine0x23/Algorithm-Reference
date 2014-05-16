@@ -1,24 +1,24 @@
 \SetPath{graph}
 
-\section{图}
-\subsection{结构体定义}
+\chapter{图}
+\section{结构体定义}
 \CPPSource{graph}
 
-\subsection{最短路}
-\subsubsection{SPFA(Shortest Path Faster Algorithm)算法}
+\section{最短路}
+\subsection{SPFA(Shortest Path Faster Algorithm)算法}
 \CPPSource{spfa}
-\subsubsection{Dijkstra算法}
+\subsection{Dijkstra算法}
 \CPPSource{dijkstra}
-\subsubsection{Floyd算法}
+\subsection{Floyd算法}
 \CPPSource{floyd}
 
-\subsection{最小生成树}
-\subsubsection{Kruskal算法}
+\section{最小生成树}
+\subsection{Kruskal算法}
 \CPPSource{kruskal}
-\subsubsection{Prim算法}
+\subsection{Prim算法}
 \CPPSource{prim}
 
-\subsection{网络流}
+\section{网络流}
 \begin{description}
 \item[源点／汇点] $s$，$t$
 \item[容量] $\forall (u, v)  \in V \times V \;.\; c(u, v) \geqslant 0$, 且$\forall (u, v) \not\in E\;.\; c(u,v) = 0$
@@ -32,29 +32,33 @@
 \item[剩余网络] 图$G_f(V, E_f)$，其中$E_f = \{(u,v) \in V \times V : c_f(u, v) > 0\}$
 \item[增广路] 路径$(u_1, u_2, \dots, u_k)$，满足$u_1 = s$、$u_k = t$、$c_f(u_i, u_{i+1}) > 0$
 \end{description}
-\subsubsection{更新流}
+\subsection{更新流}
 \CPPSource{flow_update}
-\subsubsection{Ford-Fulkerson算法}
+\subsection{Ford-Fulkerson算法}
 \CPPSource{ford_fulkerson}
-\subsubsection{Edmonds Karp算法}
+\subsection{Edmonds Karp算法}
 \CPPSource{edmonds_karp}
-\subsubsection{Dinic算法(基于层次图)}
+\subsection{Dinic算法(基于层次图)}
 \CPPSource{dinic}
-\subsubsection{SAP(Shortest Augmenting Paths，最短增广路)算法}
+\subsection{SAP(Shortest Augmenting Paths，最短增广路)算法}
 \CPPSource{sap}
 
-\subsection{二分图}
-\subsubsection{Hungarian算法(匈牙利算法)}
+\section{二分图}
+\subsection{Hungarian算法(匈牙利算法)}
 \CPPSource{hungarian}
-\subsubsection{Hopcroft Karp算法}
+\subsection{Hopcroft Karp算法}
 \CPPSource{hopcroft_karp}
 
-\subsection{强连通分量}
-\subsubsection{Kosaraju算法}
+\section{强连通分量}
+\subsection{Kosaraju算法}
 \CPPSource{kosaraju}
-\subsubsection{Tarjan算法}
+\subsection{Tarjan算法}
 \CPPSource{tarjan_scc}
 
-\subsection{最小公共祖先(Least Common Ancestor, LCA)}
-\subsubsection{Tarjan算法}
+\section{最小公共祖先(Least Common Ancestor, LCA)}
+\subsection{Tarjan算法}
 \CPPSource{tarjan_lca}
+
+\section{最小费用最大流}
+\subsection{zkw算法}
+\CPPSource{zkw}

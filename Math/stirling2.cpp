@@ -1,4 +1,4 @@
-// $O(n^2)$, calculate $S_{ij}$ where $1 \leqslant j \leqslant i\leqslant n$
+// $O(n^2)$, calculate $S(i, j)$ where $1 \leqslant j \leqslant i\leqslant n$
 int S[MAX_N][MAX_K];
 void stirling2(int n) {
 	memset(S, 0, sizeof(S)); // not necessary

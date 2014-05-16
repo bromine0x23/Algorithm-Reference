@@ -18,7 +18,8 @@ struct MatrixGraph {
 };
 // graph use adjacency list
 struct Edge {
-	int u, v, w;
+	int u, v; // form, to
+	// other fileds, such as length, capacity or cost
 };
 struct ListGraph {
 	int vertex_num; // vertex amount

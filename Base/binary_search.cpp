@@ -13,6 +13,7 @@ int binary_search(int V[], int size, int goal) {
 	}
 	return -1;
 }
+// i.e. \verb"std::lower_bound(v, v + size, pivot) - v"
 int search_lower_bound(int V[], int size, int pivot) {
 	int l = 0, r = size - 1;
 	for (; l <= r;) {
@@ -25,6 +26,7 @@ int search_lower_bound(int V[], int size, int pivot) {
 	}
 	return l; // $\forall i<l\;.\;V_{i}<pivot$
 }
+// i.e. \verb"std::upper_bound(v, v + size, pivot) - v"
 int search_upper_bound(int V[], int size, int pivot) {
 	int l = 0, r = size - 1;
 	for (; l <= r;) {
