@@ -1,34 +1,28 @@
 // adjacency matrix : $O(V^2)$
 // binary heap + adjacency list : $O(E \log V)$
 // Fibonacci heap + adjacency list: $O(E + V \log V)$
-struct PrimComparer {
-	std::vector<int> & weight;
-	PrimComparer(std::vector<int> & weight) : weight(weight) { }
-	bool operator()(int const & lhs, int const & rhs) const {
-		return weight[lhs] < weight[rhs] || (weight[lhs] == weight[rhs] && lhs < rhs);
-	}
-};
+int weight[MAX_VERTEX];
+SPListGraph const & graph; // \SourceRef{source:graph}
+bool prim_compare(int const & lhs, int const & rhs) const {
+	return weight[lhs] < weight[rhs] || (weight[lhs] == weight[rhs] && lhs < rhs);
+}
 int prim(ListGraph const & graph) {
-	std::vector<int> weight(graph.vertex_num, INF);
+	int weight_sum = 0;
+	fill_range(weight, weight + graph.vertex_num, INF); // \SourceRef{source:utility}
 	weight[0] = 0;
-	std::set<int, PrimComparer> queue(PrimComparer(weight));
+	std::set<int, PrimComparer> queue(prim_compare); // use binary heap
 	for (int vi = 0; vi < graph.vertex_num; ++vi) {
 		queue.insert(vi);
 	}
-	std::vector<bool> in_queue(graph.vertex_num, true);
-	int weight_sum = 0;
 	for (; !queue.empty(); ) {
 		int u = *queue.begin();
 		queue.erase(u);
-		in_queue[u] = false;
 		weight_sum += weight[u];
-		for (int e = graph.head[u]; e != -1; e = graph.next[e] ) {
-			int v = graph.edges[e].v;
-			int w = graph.edges[e].w;
-			if (in_queue[v] && w < weight[v]) {
-				queue.erase(v);
-				weight[v] = w;
-				queue.insert(v);
+		for (SPListGraph::Edge * edge = graph.head[u]; edge != NULL; edge = edge->next) {
+			if (queue.count(edge->v) > 0 && edge->w < weight[edge->v]) {
+				queue.erase(edge->v);
+				weight[edge->v] = edge->w;
+				queue.insert(edge->v);
 			}
 		}
 	}

@@ -1,49 +1,44 @@
 // $O(V^2 E)$
-MatrixGraph graph;
+MFListGraph graph; // \SourceRef{source:graph}
 int source, sink;
-int flow[MAX_VERTEX][MAX_VERTEX];
-int label[MAX_VERTEX];
-int GAP[MAX_VERTEX];
-int sap_find(int u, int cap) {
+int high[MAX_VERTEX];
+int gap[MAX_VERTEX];
+int sap_find(int u, int capacity) {
+	int flow;
 	if (u != sink) {
-		int left_cap = cap, temp = graph.vertex_num - 1;
-		for (int v = 0; v < graph.vertex_num; ++v) {
-			if (flow[u][v] > 0 && label[u] == label[v]+1) {
-				int f = sap_find(v, minimum(delta, left_cap));
-				left_cap -= f;
-				flow[u][v] -= f;
-				flow[v][u] += f;
-				if (left_cap == 0 || label[source] == graph.vertex_num) {
-					return cap - left_cap;
+		flow = 0;
+		int min_high = vertex_num - 1;
+		for (MFEdge * edge = graph.head[u]; edge != NULL && flow < capacity && high[source] < graph.vertex_num; edge = edge->next) {
+			if (edge->flow < edge->capacity) {
+				if (high[u] == high[edge->v] + 1) {
+					int use_flow = sap_find(edge->v, minimum(capacity - flow, edge->capacity - edge->flow));
+					flow += use_flow;
+					edge->flow += use_flow;
+					edge->reverse->flow -= use_flow;
 				}
-			}
-			if (flow[u][v] > 0) {
-				update_minimum(temp, label[v]);
+				update_minimum(min_high, high[edge->v]);
 			}
 		}
-		if (cap == left_cap) {
-			--GAP[label[u]];
-			if (GAP[label[u]] == 0) {
-				label[source] = graph.vertex_num;
+		if (flow == 0) {
+			--gap[high[u]];
+			if (gap[high[u]] != 0) {
+				high[u] = min_high + 1;
+				++gap[high[u]];
 			} else {
-				label[u] = temp + 1;
-				++GAP[label[u]];
+				high[source] = graph.vertex_num;
 			}
 		}
-		cap -= left_cap;
+	} else {
+		flow = capacity;
 	}
-	return cap;
+	return flow;
 }
 int sap() {
 	int max_flow = 0;
-	for (int i = 0; i < graph.vertex_num; ++i) {
-		for (int j = 0; j < graph.vertex_num; ++j) {
-			flow[i][j] = graph.edge(i, j);
-		}
-		label[i] = GAP[i] = 0;
-	}
-	GAP[0] = graph.vertex_num;
-	for (; label[source] < graph.vertex_num; ) {
+	fill_range(high, high + graph.vertex_num, 0); // \SourceRef{source:utility}
+	fill_range(gap, gap + graph.vertex_num, 0);
+	gap[0] = graph.vertex_num;
+	for (; high[source] < graph.vertex_num; ) {
 		max_flow += sap_find(source, INF);
 	}
 	return max_flow;

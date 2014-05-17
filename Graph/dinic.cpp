@@ -2,56 +2,50 @@
 // $\operatorname{dist}(v)$ is the length of the shortest path from $s$ to $v$ in $G_f$
 // level graph of $G_f$ is $G_L=(V, E_L, c_f|_{E_L})$, where $E_L=\{(u,v)\in E_f : \operatorname{dist}(v) = \operatorname{dist}(u) + 1\}$
 // A blocking flow is an $s-t$ flow $f'$ such that the graph $G' = (V, E_L', s, t)$ with $E_L' = \{(u,v) : f'(u,v) < c_f|_{E_L}(u,v)\}$ contains no $s-t$ path.
-MatrixGraph graph; // $G = (V, E, c)$
+MFListGraph graph; // $G = (V, E, c)$, \SourceRef{source:graph}
 int source, sink;
-int flow[MAX_VERTEX][MAX_VERTEX];
 int level[MAX_VERTEX]; // $\operatorname{dist}(v)$
 // build $G_L$, using SPFA algorithm
 bool dinic_build() {
 	std::queue<int> queue;
-	for (int i = 0; i < graph.vertex_num; ++i) {
-		level[i] = 0;
-	}
-	queue.push(s);
+	fill_range(level, level + graph.vertex_num, 0); // \SourceRef{source:utility}
+	queue.push(source);
 	level[source] = 1;
 	for (; !queue.empty(); ) {
 		int u = queue.front();
 		queue.pop();
-		for (int v = 0; v < graph.vertex_num; ++v) {
-			if (flow[u][v] > 0 && level[v] == 0) {
-				level[v] = level[u] + 1;
-				queue.push(v);
+		for (MFEdge * edge = graph.head[u]; edge != NULL; edge = edge->next) {
+			if (edge->flow < edge->capacity && level[edge->v] == 0) {
+				level[edge->v] = level[u] + 1;
+				queue.push(edge->v);
 			}
 		}
 	}
 	return level[sink] != 0;
 }
 // find $f'$ recursively
-int dinic_find(int u, int cap) {
+int dinic_find(int u, int capacity) {
+	int flow;
 	if (u != sink) {
-		int left_cap = cap;
-		for (int v = 0; v < graph.vertex_num && left_cap != 0; ++v) {
-			if (flow[u][v] > 0 && level[v] == level[u] + 1) {
-				int f = dinic_find(v, minimum(left_cap, flow[u][v]));
-				flow[u][v] -= f;
-				flow[v][u] += f;
-				left_cap -= f;
+		flow = 0;
+		for (MFEdge * edge = graph.head[u]; edge != NULL && flow < capacity; edge = edge->next) {
+			if (edge->flow < edge->capacity && level[edge->v] == level[u] + 1) {
+				int use_flow = dinic_find(edge->v, minimum(capacity - flow, edge->capacity - edge->flow));
+				flow += use_flow;
+				edge->flow += use_flow;
+				edge->reverse->flow -= use_flow;
 			}
 		}
-		cap -= left_cap;
+	} else {
+		flow = capacity;
 	}
-	return cap;
+	return flow;
 }
 int dinic() {
 	int max_flow = 0;
-	for (int i = 0; i < graph.vertex_num; ++i) {
-		for (int j = 0; j < graph.vertex_num; ++j) {
-			flow[i][j] = graph.edge(u, v);
-		}
-	}
-    for (; dinic_build(); ) {
+	for (; dinic_build(); ) {
 		for (int flow; flow = dinic_find(source, INF), flow != 0; ) {
-            max_flow += flow;
+			max_flow += flow;
 		}
 	}
 	return max_flow;

@@ -39,5 +39,6 @@
 }
 \newcommand*{\Path}{}
 \newcommand*{\SetPath}[1]{\renewcommand*{\Path}{#1}}
-\newcommand*{\CPPSource}[1]{\lstinputlisting[style=colored_cpp]{\Path/#1.cpp}}
-\newcommand*{\RubySource}[1]{\lstinputlisting[style=colored_ruby]{\Path/#1.rb}}
+\newcommand*{\CPPSource}[1]{\lstinputlisting[style=colored_cpp,label=source:#1]{\Path/#1.cpp}}
+\newcommand*{\RubySource}[1]{\lstinputlisting[style=colored_ruby,label=source:#1]{\Path/#1.rb}}
+\newcommand*{\SourceRef}[1]{See page \pageref{#1}}

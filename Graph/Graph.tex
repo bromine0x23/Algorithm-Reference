@@ -32,12 +32,8 @@
 \item[剩余网络] 图$G_f(V, E_f)$，其中$E_f = \{(u,v) \in V \times V : c_f(u, v) > 0\}$
 \item[增广路] 路径$(u_1, u_2, \dots, u_k)$，满足$u_1 = s$、$u_k = t$、$c_f(u_i, u_{i+1}) > 0$
 \end{description}
-\subsection{更新流}
-\CPPSource{flow_update}
 \subsection{Ford-Fulkerson算法}
 \CPPSource{ford_fulkerson}
-\subsection{Edmonds Karp算法}
-\CPPSource{edmonds_karp}
 \subsection{Dinic算法(基于层次图)}
 \CPPSource{dinic}
 \subsection{SAP(Shortest Augmenting Paths，最短增广路)算法}

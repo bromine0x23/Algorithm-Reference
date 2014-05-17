@@ -1,5 +1,5 @@
 // $O(V+E)$
-ListGraph graph;
+BasicListGraph graph;
 int DFN[MAX_VERTEX]; // order in DFS
 int low[MAX_VERTEX];
 int index;
@@ -10,15 +10,14 @@ void tarjan_main(int u) {
 	low[u] = DFN[u] = index++;
 	stack.push(u);
 	in_stack[i] = true;
-	for (int e = graph.head[u]; e != -1; e = graph.next[e]) {
-		int v = graph.edges[e].v;
-		if (DFN[v] == -1) {
-			tarjan_main(v);
-			update_minimum(low[u], low[v]);
-		} else if (in_s[v]) {
-			update_minimum(low[u], DFN[v]);
+	for (BasicEdge * edge = graph.head[u]; edge != NULL; edge = edge->next) {
+		if (DFN[edge->v] == -1) {
+			tarjan_main(edge->v);
+			update_minimum(low[u], low[edge->v]);
+		} else if (in_s[edge->v]) {
+			update_minimum(low[u], DFN[edge->v]);
 		}
-    }
+	}
     if (DFN[u] == low[u]) {
 	    int v;
 	    do {

@@ -1,40 +1,31 @@
 // $O(E|f|)$, $f$ is max flow value
-ListGraph graph;
-int flow[MAX_VERTEX][MAX_VERTEX];
-int prev[MAX_VERTEX];
+MFListGraph graph; // \SourceRef{source:graph}
+bool visited[MAX_VERTEX];
 // find augmenting path by DFS
-bool ford_fulkerson_find(int u, int sink) {
+int ford_fulkerson_find(int u, int capacity) {
+	int flow;
 	if (u != sink) {
-		for (int e = graph.head[u]; e != -1; e = graph.next[e]) {
-			int v = graph.edges[e].v;
-			int w = graph.edges[e].w;
-			if (prev[v] == -1 && w > flow[u][v]) {
-				prev[v] = u;
-				if (ford_fulkerson_find(v, sink)) {
-					return true;
-				}
+		visited[u] = true;
+		flow = 0;
+		for (MFEdge * edge = graph.head[u]; edge != NULL && flow < capacity; edge = edge->next) {
+			if (edge->flow < edge->capacity && !visited[edge->v]) {
+				int use_flow = ford_fulkerson_find(edge->v, minimum(capacity - flow, edge->capacity - edge->flow));
+				flow += use_flow;
+				edge->flow += use_flow;
+				edge->reverse->flow -= use_flow;
 			}
 		}
-		return false;
 	} else {
-		return true;
+		flow = capacity;
 	}
+	return flow;
 }
-int ford_fulkerson(int source, int sink) {
+int ford_fulkerson() {
 	int max_flow = 0;
-	for (int i = 0; i < graph.vertex_num; ++i) {
-		for (int j = 0; j < graph.vertex_num; ++j) {
-			flow[i][j] = 0;
-		}
-	}
-	for (; ; ) {
-		for (int i = 0; i < graph.vertex_num; ++i) {
-			prev[i] = -1;
-		}
-		if (!ford_fulkerson_find(source, sink)) {
-			break;
-		}
-		max_flow += flow_update(sink);
+	for (int flow = INF; flow > 0; ) {
+		fill_range(visited, visited + graph.vertex_num, false); // \SourceRef{source:utility}
+		flow = ford_fulkerson_find(source, INF);
+		max_flow += flow;
 	}
 	return max_flow;
 }
