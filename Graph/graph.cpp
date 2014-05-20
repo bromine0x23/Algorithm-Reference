@@ -23,16 +23,15 @@ struct SPMatrixGraph {
 	// \verb"for (int v = 0; v < graph.vertex_num; ++v) { if (graph.weight[u][v] != INF) {/* do something... */ } }"
 };
 // template of graph using adjacency list
-template<typename edge_type>
+template<typename Edge>
 struct ListGraph {
-	typedef edge_type Edge;
 	int vertex_num, edge_num; // vertex \& edge amount
 	Edge * head[MAX_VERTEX];
 	Edge edges[MAX_EDGE];
 	int build(int vn) {
 		vertex_num = vn;
 		edge_num = 0;
-		fill_range(head, head + graph.vertex_num, NULL); // \SourceRef{source:utility}
+		fill_range<Edge *>(head, head + graph.vertex_num, NULL); // \SourceRef{source:utility}
 	}
 	Edge * add_edge(int u, int v) {
 		Edge * edge = edges + edge_num;
@@ -68,8 +67,8 @@ struct SPListGraph : ListGraph<SPEdge> {
 struct MFEdge {
 	int u, v; // form, to
 	int capacity, flow;
-	SPEdge * reserve; // point to edge $(v, u)$
-	SPEdge * next; // next weight in adjacency list
+	MFEdge * reverse; // point to edge $(v, u)$
+	MFEdge * next; // next weight in adjacency list
 };
 struct MFListGraph : ListGraph<MFEdge> {
 	void add_edge(int u, int v, int capacity) {
@@ -77,15 +76,38 @@ struct MFListGraph : ListGraph<MFEdge> {
 		MFEdge * edge2 = add_edge(v, u);
 		edge1->capacity = capacity;
 		edge2->capacity = 0;
-		edge1->flow = capacity;
+		edge1->flow = 0;
 		edge2->flow = 0;
-		edge1->reserve = edge2;
-		edge2->reserve = edge1;
+		edge1->reverse = edge2;
+		edge2->reverse = edge1;
+	}
+};
+// graph structure define use adjacency list for minimum-cost flow problem
+struct MCFEdge {
+	int u, v; // form, to
+	int capacity, flow;
+	int cost;
+	MCFEdge * reverse; // point to edge $(v, u)$
+	MCFEdge * next; // next weight in adjacency list
+};
+struct MCFListGraph : ListGraph<MCFEdge> {
+	void add_edge(int u, int v, int capacity, int cost) {
+		MCFEdge * edge1 = add_edge(u, v);
+		MCFEdge * edge2 = add_edge(v, u);
+		edge1->capacity = capacity;
+		edge2->capacity = 0;
+		edge1->cost = cost;
+		edge2->cost = -cost;
+		edge1->flow = 0;
+		edge2->flow = 0;
+		edge1->reverse = edge2;
+		edge2->reverse = edge1;
 	}
 };
 // bipartite graph
-struct BiGraph {
+struct BipartiteGraph {
 	int x_num, y_num;
 	bool edge;
-	BiGraph(int xn, int yn) : x_num(xn), y_num(yn), edge(x_num, std::vector<bool>(y_num, false)) { }
+	BipartiteGraph(int xn, int yn)
+		: x_num(xn), y_num(yn), edge(x_num, std::vector<bool>(y_num, false)) { }
 };

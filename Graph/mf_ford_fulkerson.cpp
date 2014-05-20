@@ -1,12 +1,13 @@
 // $O(E|f|)$, $f$ is max flow value
 MFListGraph graph; // \SourceRef{source:graph}
+int source, sink;
 bool visited[MAX_VERTEX];
 // find augmenting path by DFS
-int ford_fulkerson_find(int u, int capacity) {
+int ford_fulkerson_find(int u, \int capacity) {
 	int flow;
 	if (u != sink) {
-		visited[u] = true;
 		flow = 0;
+		visited[u] = true;
 		for (MFEdge * edge = graph.head[u]; edge != NULL && flow < capacity; edge = edge->next) {
 			if (edge->flow < edge->capacity && !visited[edge->v]) {
 				int use_flow = ford_fulkerson_find(edge->v, minimum(capacity - flow, edge->capacity - edge->flow));

@@ -14,24 +14,14 @@ value_type & update_minimum(value_type & lhs, value_type const & rhs) {
 	}
 	return lhs;
 }
-// get maximum, return as value
+// get maximum
 template<typename value_type>
 value_type const & maximum(value_type const & lhs, value_type const & rhs) {
 	return rhs < lhs ? lhs : rhs;
 }
-// get minimum, return as value
+// get minimum
 template<typename value_type>
 value_type const & minimum(value_type const & lhs, value_type const & rhs) {
-	return lhs < rhs ? lhs : rhs;
-}
-// get maximum, return as reference
-template<typename value_type>
-value_type & maximum(value_type & lhs, value_type & rhs) {
-	return rhs < lhs ? lhs : rhs;
-}
-// get minimum, return as reference
-template<typename value_type>
-value_type & minimum(value_type & lhs, value_type & rhs) {
 	return lhs < rhs ? lhs : rhs;
 }
 // swap two values
@@ -43,14 +33,14 @@ void swap(value_type & lhs, value_type & rhs) {
 }
 // fill array
 template<typename value_type>
-void fill_range(value_type * begin, value_type * end, value_type & const value) {
-	for (value_type * iterator; iterator != end; ++iterator) {
+void fill_range(value_type * begin, value_type * end, value_type const & value) {
+	for (value_type * iterator = begin; iterator != end; ++iterator) {
 		*iterator = value;
 	}
 }
 // fill matrix
 template<typename value_type>
-void fill_matrix(value_type ** begin, int n, int m, value_type & const value) {
+void fill_matrix(value_type ** begin, int n, int m, value_type const & value) {
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < m; ++j) {
 			weight[i * m + j] = INF;

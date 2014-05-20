@@ -16,7 +16,7 @@ bool dinic_build() {
 		queue.pop();
 		for (MFEdge * edge = graph.head[u]; edge != NULL; edge = edge->next) {
 			if (edge->flow < edge->capacity && level[edge->v] == 0) {
-				level[edge->v] = level[u] + 1;
+				level[edge->v] = level[edge->u] + 1;
 				queue.push(edge->v);
 			}
 		}
@@ -29,7 +29,7 @@ int dinic_find(int u, int capacity) {
 	if (u != sink) {
 		flow = 0;
 		for (MFEdge * edge = graph.head[u]; edge != NULL && flow < capacity; edge = edge->next) {
-			if (edge->flow < edge->capacity && level[edge->v] == level[u] + 1) {
+			if (edge->flow < edge->capacity && level[edge->v] == level[edge->u] + 1) {
 				int use_flow = dinic_find(edge->v, minimum(capacity - flow, edge->capacity - edge->flow));
 				flow += use_flow;
 				edge->flow += use_flow;
@@ -41,7 +41,7 @@ int dinic_find(int u, int capacity) {
 	}
 	return flow;
 }
-int dinic() {
+int dinic(int source, int sink) {
 	int max_flow = 0;
 	for (; dinic_build(); ) {
 		for (int flow; flow = dinic_find(source, INF), flow != 0; ) {

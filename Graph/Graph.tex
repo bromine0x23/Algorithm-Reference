@@ -4,21 +4,21 @@
 \section{结构体定义}
 \CPPSource{graph}
 
-\section{最短路}
+\section{最短路(SP, Shortest Path)}
 \subsection{SPFA(Shortest Path Faster Algorithm)算法}
-\CPPSource{spfa}
+\CPPSource{sp_spfa}
 \subsection{Dijkstra算法}
-\CPPSource{dijkstra}
+\CPPSource{sp_dijkstra}
 \subsection{Floyd算法}
-\CPPSource{floyd}
+\CPPSource{sp_floyd}
 
-\section{最小生成树}
+\section{最小生成树(MST, Minimum Spanning Tree)}
 \subsection{Kruskal算法}
-\CPPSource{kruskal}
+\CPPSource{mst_kruskal}
 \subsection{Prim算法}
-\CPPSource{prim}
+\CPPSource{mst_prim}
 
-\section{网络流}
+\section{最大流(MF, Maximum Flow)}
 \begin{description}
 \item[源点／汇点] $s$，$t$
 \item[容量] $\forall (u, v)  \in V \times V \;.\; c(u, v) \geqslant 0$, 且$\forall (u, v) \not\in E\;.\; c(u,v) = 0$
@@ -33,28 +33,32 @@
 \item[增广路] 路径$(u_1, u_2, \dots, u_k)$，满足$u_1 = s$、$u_k = t$、$c_f(u_i, u_{i+1}) > 0$
 \end{description}
 \subsection{Ford-Fulkerson算法}
-\CPPSource{ford_fulkerson}
+\CPPSource{mf_ford_fulkerson}
+\subsection{Edmonds-Karp算法}
+\CPPSource{mf_edmonds_karp}
 \subsection{Dinic算法(基于层次图)}
-\CPPSource{dinic}
+\CPPSource{mf_dinic}
 \subsection{SAP(Shortest Augmenting Paths，最短增广路)算法}
-\CPPSource{sap}
+\CPPSource{mf_sap}
 
-\section{二分图}
+\section{二分图匹配(BGM, Bipartite Graph Matching)}
 \subsection{Hungarian算法(匈牙利算法)}
-\CPPSource{hungarian}
+\CPPSource{bgm_hungarian}
 \subsection{Hopcroft Karp算法}
-\CPPSource{hopcroft_karp}
+\CPPSource{bgm_hopcroft_karp}
 
-\section{强连通分量}
+\section{强连通分量(SCC, Strongly Connected Component)}
 \subsection{Kosaraju算法}
-\CPPSource{kosaraju}
+\CPPSource{scc_kosaraju}
 \subsection{Tarjan算法}
-\CPPSource{tarjan_scc}
+\CPPSource{scc_tarjan}
 
-\section{最小公共祖先(Least Common Ancestor, LCA)}
+\section{最小公共祖先(LCA, Least Common Ancestor)}
 \subsection{Tarjan算法}
-\CPPSource{tarjan_lca}
+\CPPSource{lca_tarjan}
 
-\section{最小费用最大流}
-\subsection{zkw算法}
-\CPPSource{zkw}
+\section{最小费用流(MCF, Minimum Cost Flow)}
+\subsection{SPFA增广}
+\CPPSource{mcf_spfa}
+\subsection{Dijkstra增广}
+\CPPSource{mcf_dijkstra}

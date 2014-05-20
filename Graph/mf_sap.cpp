@@ -10,7 +10,7 @@ int sap_find(int u, int capacity) {
 		int min_high = vertex_num - 1;
 		for (MFEdge * edge = graph.head[u]; edge != NULL && flow < capacity && high[source] < graph.vertex_num; edge = edge->next) {
 			if (edge->flow < edge->capacity) {
-				if (high[u] == high[edge->v] + 1) {
+				if (high[edge->u] == high[edge->v] + 1) {
 					int use_flow = sap_find(edge->v, minimum(capacity - flow, edge->capacity - edge->flow));
 					flow += use_flow;
 					edge->flow += use_flow;
