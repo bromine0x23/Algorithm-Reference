@@ -3,7 +3,7 @@ MFListGraph graph; // \SourceRef{source:graph}
 int source, sink;
 bool visited[MAX_VERTEX];
 // find augmenting path by DFS
-int ford_fulkerson_find(int u, \int capacity) {
+int ford_fulkerson_find(int u, int capacity) {
 	int flow;
 	if (u != sink) {
 		flow = 0;

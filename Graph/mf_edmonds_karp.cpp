@@ -8,7 +8,6 @@ bool edmonds_karp_find() {
 	fill_range(prev, prev + graph.vertex_num, -1); // \SourceRef{source:utility}
 	fill_range<Edge *>(path, path + graph.vertex_num, NULL);
 	queue.push(source);
-	visited[source] = true;
 	for (; !queue.empty(); ) {
 		int u = queue.front();
 		queue.pop();
@@ -33,7 +32,7 @@ int edmonds_karp() {
 			path[v]->flow += flow;
 			path[v]->reverse->flow -= flow;
 		}
-		min_cost_flow += flow;
+		max_flow += flow;
 	}
 	return max_flow;
 }

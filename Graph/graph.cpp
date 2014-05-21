@@ -33,13 +33,12 @@ struct ListGraph {
 		edge_num = 0;
 		fill_range<Edge *>(head, head + graph.vertex_num, NULL); // \SourceRef{source:utility}
 	}
-	Edge * add_edge(int u, int v) {
-		Edge * edge = edges + edge_num;
+	Edge * new_edge(int u, int v) {
+		Edge * edge = edges + edge_num++;
 		edge->u = u;
 		edge->v = v;
 		edge->next = head[u];
 		head[u] = edge;
-		++edge_num;
 		return edge;
 	}
 	// traversal u``s edges:
@@ -59,7 +58,7 @@ struct SPEdge {
 };
 struct SPListGraph : ListGraph<SPEdge> {
 	void add_edge(int u, int v, int w) {
-		SPEdge * edge = add_edge(u, v);
+		SPEdge * edge = new_edge(u, v);
 		edge->w = w;
 	}
 };
@@ -72,8 +71,8 @@ struct MFEdge {
 };
 struct MFListGraph : ListGraph<MFEdge> {
 	void add_edge(int u, int v, int capacity) {
-		MFEdge * edge1 = add_edge(u, v);
-		MFEdge * edge2 = add_edge(v, u);
+		MFEdge * edge1 = new_edge(u, v);
+		MFEdge * edge2 = new_edge(v, u);
 		edge1->capacity = capacity;
 		edge2->capacity = 0;
 		edge1->flow = 0;
@@ -92,8 +91,8 @@ struct MCFEdge {
 };
 struct MCFListGraph : ListGraph<MCFEdge> {
 	void add_edge(int u, int v, int capacity, int cost) {
-		MCFEdge * edge1 = add_edge(u, v);
-		MCFEdge * edge2 = add_edge(v, u);
+		MCFEdge * edge1 = new_edge(u, v);
+		MCFEdge * edge2 = new_edge(v, u);
 		edge1->capacity = capacity;
 		edge2->capacity = 0;
 		edge1->cost = cost;

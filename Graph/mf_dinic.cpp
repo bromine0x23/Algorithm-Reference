@@ -41,7 +41,7 @@ int dinic_find(int u, int capacity) {
 	}
 	return flow;
 }
-int dinic(int source, int sink) {
+int dinic() {
 	int max_flow = 0;
 	for (; dinic_build(); ) {
 		for (int flow; flow = dinic_find(source, INF), flow != 0; ) {
