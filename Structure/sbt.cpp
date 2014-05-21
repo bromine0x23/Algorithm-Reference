@@ -1,135 +1,105 @@
 // time complexity of each operation is $O(\log n)$, expect maintain which is $O(1)$
-struct SBTNode {
-	int key;
-	int size;
-	union {
-		int c[2]; // children, false -> l, true -> r
-		struct { int l, r; }; // left and right child
+struct SBT {
+	struct Node {
+		int value, time;
+		int sum;
+		int size, count; // subtree node``s size, subtree``s element number
+		union {
+			Node * child[2]; // children, false -> left, true -> right
+			struct {
+				Node * left;
+				Node * right;
+			};
+		};
 	};
-	void new_node(int value) {
-		key = value;
-		size = 1;
-		l = r = 0;
-	}
-}
-SBTNode SBT[MAX_NODE];
-int count;
-int root;
-void init() {
-	root = 0;
-	count = 0;
-}
-void rotate(int & x, bool side) {
-	int y = SBT[x].child[!side];
-	SBT[x].c[!side] = SBT[y].c[side];
-	SBT[y].c[side] = x;
-	SBT[y].size = SBT[x].size;
-	SBT[x].size = SBT[SBT[x].l].size + 1 + SBT[SBT[x].r].size;
-	x = y;
-}
-void lrotate(int & node) {
-	rotate(node, false);
-}
-void rrotate(int & node) {
-	rotate(node, true);
-}
-int find(int node, int value) {
-	if (node != 0 && SBT[node].key != value) {
-		if (value < SBT[node].key) {
-			return find(SBT[node].l, value);
-		} else {
-			return find(SBT[node].r, value);
-		}
-	} else {
+	Node * null;
+	Node * root;
+	Node * free;
+	Node * get_node(); // \SourceRef{source:treap}
+	void put_node(Node * node); // \SourceRef{source:treap}
+	Node * make_node(int value) {
+		Node * node = new_node();
+		node->value = value;
+		node->time = 1;
+		node->sum = value;
+		node->size = node->count = 1;
+		node->left = node->right = null;
 		return node;
 	}
-}
-void maintain(int & node, bool side) {
-	if (SBT[SBT[SBT[node].c[side]].c[side]].size > SBT[SBT[node].c[!side]].size) {
-		rotate(node, !side);
-	} else if (SBT[SBT[SBT[node].c[side]].c[!side]].size > SBT[SBT[node].c[!side]].size) {
-		rotate(SBT[node].c[side], side);
-		rotate(node, !side);
-	} else {
-		return;
+	void init(){
+		free = NULL;
+		null = get_node();
+		null->time = 0;
+		null->sum = 0;
+		null->size = null->count = 0;
+		null->left = null->right = null;
+		root = null;
 	}
-	lmaintain(SBT[node].l);
-	rmaintain(SBT[node].r);
-	lmaintain(x);
-	rmaintain(x);
-}
-void lmaintain(int & node) {
-	maintain(int & node, false);
-}
-void rmaintain(int & node) {
-	maintain(int & node, true);
-}
-void insert(int & node, int value) {
-	if (!node) {
-		node = ++count;
-		SBT[node].new_node(value);
-		return;
-	}
-	++SBT[node].size;
-	if (value < SBT[node].key) {
-		insert(SBT[node].l, value);
-		lmaintain(node);
-	} else {
-		insert(SBT[node].r, value);
-		rmaintain(node);
-	}
-}
-int erase(int & node, int value) {
-	--SBT[node].size;
-	if (value == SBT[node].key || (value < SBT[node].key && !SBT[node].l) || (value > SBT[node].key && !SBT[node].r)) {
-		if (SBT[node].l && SBT[node].r) {
-			int p = erase(SBT[node].l, value + 1);
-			SBT[node].key = SBT[p].key;
-			return p;
+	void push_up(Node * node); // \SourceRef{source:treap}
+	void push_down(Node * node); // \SourceRef{source:treap}
+	void rotate(Node * & x, bool side); // \SourceRef{source:treap}
+	void maintain(Node * & node, bool side) {
+		if (node->child[side]->child[side]->size  > node->child[!side]->size) {
+			rotate(node, !side);
+		} else if (node->child[side]->child[!side]->size > node->child[!side]->size) {
+			rotate(node->child[side], side);
+			rotate(node, !side);
 		} else {
-			int p = node;
-			node = SBT[node].l + SBT[node].r;
-			return p;
+			return;
 		}
-	} else {
-		return erase(value < SBT[node].key ? SBT[node].l : SBT[node].r, value);
+		maintain(node->left, false);
+		maintain(node->right, true);
+		maintain(node, false);
+		maintain(node, true);
 	}
-}
-int pred(int node, int value) {
-	if (!node) {
-		return -1;
-	} else if (value <= SBT[node].key) {
-		return pred(SBT[node].l, value);
-	} else {
-		return maximum(SBT[node].key, pred(SBT[node].r, value));
+	// insert element
+	void insert(int value); // \SourceRef{source:treap}
+	void insert(Node * & node, int value) {
+		if (node != null) {
+			if (node->value == value) {
+				++node->time;
+				push_up(node);
+			} else {
+				bool side = node->value < value;
+				insert(node->child[side], value);
+				push_up(node);
+				maintain(node, side);
+			}
+		} else {
+			node = init_node(value);
+		}
 	}
-}
-int succ(int node, int value) {
-	if (!node) {
-		return INF;
-	} else if (value >= SBT[node].key) {
-		return succ(SBT[node].r, value);
-	} else {
-		return minimum(SBT[node].key, succ(SBT[node].l, value));
+	// erase element
+	void erase(int value); // \SourceRef{source:treap}
+	void erase(Node * & node, int value) {
+		if (node->value == value) {
+			if (node->time > 1) {
+				--node->time;
+				push_up(node);
+			} else if (node->left == null && node->right == null) {
+				put_node(node);
+				node = null;
+			} else if (node->right == null) {
+				node = node->left;
+				push_up(node);
+			} else if (node->left == null) {
+				node = node->right;
+				push_up(node);
+			} else {
+				bool side = node->value < value;
+				rotate(node, side);
+				erase(node->child[side], value);
+				push_up(node);
+			}
+		} else {
+			erase(node->child[node->value < value], value);
+			push_up(node);
+		}
 	}
-}
-// return $k$-small element in the tree which root is $node$
-int select(int node, int k) {
-	if (k == SBT[SBT[node].l].size + 1) {
-		return SBT[node].key;
-	} else if (k <= SBT[SBT[node].l].size) {
-		return select(SBT[node].l, k);
-	} else {
-		return select(SBT[node].r, k- 1 - SBT[SBT[node].l].size);
-	}
-}
-// return $x$ that $x$ is $k$-small element in the tree which root is $node$
-int rank(int node, int k) {
-	if (!node) {
-		return 1;
-	} else if (k <= SBT[node].key) {
-		return rank(SBT[node].l,k);
-	} else {
-		return SBT[SBT[node].l].size + 1 + rank(SBT[node].r, k);
-	}
-}
+	Node * find(int value); // \SourceRef{source:treap}
+	Node * find(Node * node, int value); // \SourceRef{source:treap}
+	Node * select(int k); // \SourceRef{source:treap}
+	Node * select(Node * node, int k); // \SourceRef{source:treap}
+	int rank(int value); // \SourceRef{source:treap}
+	int rank(Node * node, int value); // \SourceRef{source:treap}
+};
